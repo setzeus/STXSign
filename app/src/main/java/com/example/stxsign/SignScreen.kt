@@ -31,7 +31,15 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
         color = MaterialTheme.colors.primary
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
-
+            Image(
+                painter = painterResource(id = R.drawable.sbtclogo),
+                contentDescription = "Restfully Placeholder Coach Image",
+                modifier = Modifier
+                    .weight(1f)
+                    .size(64.dp,64.dp),
+                contentScale = ContentScale.Fit
+            )
+            Text(text = "Deposit")
         }
 //        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
 //            Text(text = "Stack Screen Placeholder")

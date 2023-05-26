@@ -70,7 +70,7 @@ fun MainLayout() {
             currentRoute = navBackStackEntry?.destination?.route
         ) }
     ) {
-        NavHost(navController = navController, startDestination = Screen.Stack.title) {
+        NavHost(navController = navController, startDestination = Screen.Sign.title) {
             composable(Screen.Stack.title) {
                 StackScreen()
             }

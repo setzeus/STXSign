@@ -22,8 +22,8 @@ sealed class Screen(val route:String, val title:String, val icon:ImageVector) {
 data class BottomNavigationItem(val route: String, val icon: ImageVector, val iconContentDescription: String)
 
 val bottomNavigationItems = listOf(
-    BottomNavigationItem(Screen.Stack.title, Icons.Default.Person, Screen.Stack.title),
     BottomNavigationItem(Screen.Sign.title, Icons.Default.Add, Screen.Sign.title),
+    BottomNavigationItem(Screen.Stack.title, Icons.Default.Person, Screen.Stack.title),
 )
 
 @Composable

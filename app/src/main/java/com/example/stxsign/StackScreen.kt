@@ -26,7 +26,7 @@ import androidx.navigation.compose.rememberNavController
 fun StackScreen() {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.primary
+        color = MaterialTheme.colors.background
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(text = "Stack Screen Placeholder")

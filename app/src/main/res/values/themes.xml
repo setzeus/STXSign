@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.STXSign" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.STXSign" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="colorPrimary">#FF5446F4</item>
+        <item name="colorPrimaryDark">#FF5446F4</item>
+        <item name="colorAccent">#FF5446F4</item>
+    </style>
+
+
 </resources>

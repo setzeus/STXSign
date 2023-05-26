@@ -28,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, currentRoute: String?) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.primary
+        color = MaterialTheme.colors.background
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Image(

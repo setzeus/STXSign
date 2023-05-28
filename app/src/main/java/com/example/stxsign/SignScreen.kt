@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.*
 //import androidx.compose.foundation.layout.RowScopeInstance.weight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,9 +17,11 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -53,8 +56,22 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
             // Column containing detail row & slider row
             Column {
                 Row(modifier = Modifier) {
-                    Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold)
-                    Text(text = "vote required", fontSize = 20.sp, fontStyle = FontStyle.Italic)
+                    Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier.align(Alignment.CenterVertically))
+                    Row(
+                        modifier = Modifier
+                            .background(
+                                color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .align(Alignment.CenterVertically)
+                    ) {
+                        Text(
+                            text = "autosigned",
+                            color = colorResource(id = R.color.green_text_900),
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
                     Spacer(modifier = Modifier.weight(1f))
                     ClearButton(onClick = { /* Handle button click */ })
                 }
@@ -66,8 +83,20 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 
 @Composable
 fun ClearButton(onClick: () -> Unit) {
-    IconButton(onClick = onClick) {
-        Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "open")
+    var rotationAngle by remember { mutableStateOf(0f) }
+    var rotated by remember { mutableStateOf(false) }
+
+    IconButton(onClick = {
+        onClick()
+        if (rotated) {
+            rotationAngle = (rotationAngle + 90 % 360)
+            rotated = false
+        } else {
+            rotationAngle = (rotationAngle - 90 % 360)
+            rotated = true
+        }
+    }, modifier = Modifier.size(48.dp).rotate(rotationAngle.toFloat())) {
+        Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "open", modifier = Modifier.size(32.dp))
     }
 }
 
@@ -89,7 +118,8 @@ fun SigningProgressBar() {
     Column() {
         LinearProgressIndicator(
             progress = signingProgress / 100,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            color = colorResource(id = R.color.sbtc_yellow_500)
         )
     }
 }

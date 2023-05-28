@@ -15,4 +15,6 @@
     <color name="btc_yellow_500">#FFEA993E</color>
     <color name="sbtc_yellow_200">#AAF1BA73</color>
     <color name="sbtc_yellow_500">#FFF1BA73</color>
+    <color name="green_tag_500">#FF7CDF17</color>
+    <color name="green_text_900">#FF366A00</color>
 </resources>

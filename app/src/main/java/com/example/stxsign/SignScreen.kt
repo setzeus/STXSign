@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -43,39 +44,67 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            // sbtc or btc logo
-            Image(
-                painter = painterResource(id = R.drawable.sbtclogo),
-                contentDescription = "Restfully Placeholder Coach Image",
-                modifier = Modifier
-                    .size(56.dp)
-                    .padding(0.dp),
-                contentScale = ContentScale.Fit
-            )
-            // Column containing detail row & slider row
-            Column {
-                Row(modifier = Modifier) {
-                    Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier.align(Alignment.CenterVertically))
-                    Row(
-                        modifier = Modifier
-                            .background(
-                                color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                shape = RoundedCornerShape(16.dp)
-                            )
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                            .align(Alignment.CenterVertically)
-                    ) {
-                        Text(
-                            text = "autosigned",
-                            color = colorResource(id = R.color.green_text_900),
-                            style = MaterialTheme.typography.body2
-                        )
-                    }
-                    Spacer(modifier = Modifier.weight(1f))
-                    ClearButton(onClick = { /* Handle button click */ })
+        Column() {
+            Text("2 Pending Reqs")
+            Row() {
+                Text("Sort by")
+                Text("time to expire")
+                Icon(
+                    Icons.Default.KeyboardArrowLeft,
+                    contentDescription = "open",
+                    modifier = Modifier.size(32.dp),
+                )
+                Spacer(Modifier.weight(1f))
+                Button(onClick = { /*TODO*/ }) {
+                    Icon(
+                        Icons.Default.KeyboardArrowLeft,
+                        contentDescription = "open",
+                        modifier = Modifier.size(32.dp),
+                    )
                 }
-                SigningProgressBar()
+                Button(onClick = { /*TODO*/ }) {
+                    Icon(
+                        Icons.Default.KeyboardArrowLeft,
+                        contentDescription = "open",
+                        modifier = Modifier.size(32.dp),
+                    )
+                }
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)) {
+                // sbtc or btc logo
+                Image(
+                    painter = painterResource(id = R.drawable.sbtclogo),
+                    contentDescription = "Restfully Placeholder Coach Image",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(0.dp),
+                    contentScale = ContentScale.Fit
+                )
+                // Column containing detail row & slider row
+                Column(modifier = Modifier) {
+                    Row(modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                        Spacer(Modifier.weight(1f))
+                        Row(modifier = Modifier.padding(top = 4.dp)) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                            }
+                        }
+                        Spacer(Modifier.weight(10f))
+                        ClearButton(onClick = { /* Handle button click */ })
+                    }
+                    SigningProgressBar()
+                }
             }
         }
     }
@@ -83,22 +112,23 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 
 @Composable
 fun ClearButton(onClick: () -> Unit) {
-    var rotationAngle by remember { mutableStateOf(0f) }
     var rotated by remember { mutableStateOf(false) }
 
-    IconButton(onClick = {
-        onClick()
-        if (rotated) {
-            rotationAngle = (rotationAngle + 90 % 360)
-            rotated = false
-        } else {
-            rotationAngle = (rotationAngle - 90 % 360)
-            rotated = true
-        }
-    }, modifier = Modifier.size(48.dp).rotate(rotationAngle.toFloat())) {
-        Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "open", modifier = Modifier.size(32.dp))
+    IconButton(
+        onClick = {
+            rotated = !rotated
+            onClick()
+        },
+        modifier = Modifier.rotate(if (rotated) -90f else 0f)
+    ) {
+        Icon(
+            Icons.Default.KeyboardArrowLeft,
+            contentDescription = "open",
+            modifier = Modifier.size(32.dp),
+        )
     }
 }
+
 
 @Composable
 fun SigningProgressBar() {

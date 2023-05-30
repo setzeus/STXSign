@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 //import androidx.compose.foundation.layout.RowScopeInstance.weight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -67,27 +68,101 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
             Row() {
                 Text("sort by", fontWeight = FontWeight.ExtraLight, fontSize = 16.sp)
                 Text(" time to expire", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Image(
-                    painter = painterResource(id = R.drawable.filtericonss),
-                    contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier.size(20.dp),
-                    contentScale = ContentScale.Fit
-                )
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(color = colorResource(id = R.color.offwhite_100), shape = CircleShape)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.filtericonss2),
+                        contentDescription = "Restfully Placeholder Coach Image",
+                        modifier = Modifier.size(16.dp).align(Alignment.Center),
+                        contentScale = ContentScale.Fit
+                    )
+                }
                 Spacer(Modifier.weight(1f))
                 Image(
                     painter = painterResource(id = R.drawable.listiconss),
                     contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.size(18.dp),
                     contentScale = ContentScale.Fit
                 )
                 Image(
                     painter = painterResource(id = R.drawable.gridiconss),
                     contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.size(18.dp),
                     contentScale = ContentScale.Fit
                 )
             }
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 20.dp)) {
+                // sbtc or btc logo
+                Image(
+                    painter = painterResource(id = R.drawable.sbtclogo),
+                    contentDescription = "Restfully Placeholder Coach Image",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(0.dp),
+                    contentScale = ContentScale.Fit
+                )
+                // Column containing detail row & slider row
+                Column(modifier = Modifier) {
+                    Row(modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                        Spacer(Modifier.weight(1f))
+                        Row(modifier = Modifier.padding(top = 4.dp)) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                            }
+                        }
+                        Spacer(Modifier.weight(10f))
+                        ClearButton(onClick = { /* Handle button click */ })
+                    }
+                    SigningProgressBar()
+                }
+            }
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
+                // sbtc or btc logo
+                Image(
+                    painter = painterResource(id = R.drawable.btclogo),
+                    contentDescription = "Restfully Placeholder Coach Image",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(0.dp),
+                    contentScale = ContentScale.Fit
+                )
+                // Column containing detail row & slider row
+                Column(modifier = Modifier) {
+                    Row(modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Text(text = "Withdraw", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                        Spacer(Modifier.weight(1f))
+                        Row(modifier = Modifier.padding(top = 4.dp)) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                            }
+                        }
+                        Spacer(Modifier.weight(10f))
+                        ClearButton(onClick = { /* Handle button click */ })
+                    }
+                    SigningProgressBar()
+                }
+            }
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
                 // sbtc or btc logo
                 Image(
                     painter = painterResource(id = R.drawable.sbtclogo),

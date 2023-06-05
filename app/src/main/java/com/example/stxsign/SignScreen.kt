@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -56,146 +58,261 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
         }
     }.toAnnotatedString()
 
+    var overlayActive by remember { mutableStateOf(false) }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        Column( modifier = Modifier.padding(horizontal = 16.dp).padding(top = 16.dp)) {
-            Row() {
-                Text(text = requestsText, fontSize = 36.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                Text(text = " Pending Reqs", fontSize = 36.sp, fontWeight = FontWeight.Light, modifier = Modifier)
-            }
-            Row() {
-                Text("sort by", fontWeight = FontWeight.ExtraLight, fontSize = 16.sp)
-                Text(" time to expire", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(color = colorResource(id = R.color.offwhite_100), shape = CircleShape)
-                ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column( modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)) {
+                Row() {
+                    Text(text = requestsText, fontSize = 36.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                    Text(text = " Pending Reqs", fontSize = 36.sp, fontWeight = FontWeight.Light, modifier = Modifier)
+                }
+                Row(modifier = Modifier) {
+                    Text("sort by", fontWeight = FontWeight.ExtraLight, fontSize = 16.sp)
+                    Text(" time to expire", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .background(
+                                color = colorResource(id = R.color.offwhite_100),
+                                shape = CircleShape
+                            )
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.filtericonss2),
+                            contentDescription = "Restfully Placeholder Coach Image",
+                            modifier = Modifier
+                                .size(16.dp)
+                                .align(Alignment.Center),
+                            contentScale = ContentScale.Fit
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
                     Image(
-                        painter = painterResource(id = R.drawable.filtericonss2),
+                        painter = painterResource(id = R.drawable.listiconss),
                         contentDescription = "Restfully Placeholder Coach Image",
-                        modifier = Modifier.size(16.dp).align(Alignment.Center),
+                        modifier = Modifier.size(18.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.gridiconss),
+                        contentDescription = "Restfully Placeholder Coach Image",
+                        modifier = Modifier.size(18.dp),
                         contentScale = ContentScale.Fit
                     )
                 }
+                ClickableRow(onRowClicked = { overlayActive = true })
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)) {
+                    // sbtc or btc logo
+                    Image(
+                        painter = painterResource(id = R.drawable.btclogo),
+                        contentDescription = "Restfully Placeholder Coach Image",
+                        modifier = Modifier
+                            .size(48.dp)
+                            .padding(0.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    // Column containing detail row & slider row
+                    Column(modifier = Modifier) {
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 4.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Text(text = "Withdraw", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                            Spacer(Modifier.weight(1f))
+                            Row(modifier = Modifier.padding(top = 4.dp)) {
+                                Row(modifier = Modifier
+                                    .background(
+                                        color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                        shape = RoundedCornerShape(16.dp)
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                ) {
+                                    Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                                }
+                            }
+                            Spacer(Modifier.weight(10f))
+                            ClearButton(onClick = { /* Handle button click */ })
+                        }
+                        SigningProgressBar()
+                    }
+                }
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)) {
+                    // sbtc or btc logo
+                    Image(
+                        painter = painterResource(id = R.drawable.sbtclogo),
+                        contentDescription = "Restfully Placeholder Coach Image",
+                        modifier = Modifier
+                            .size(48.dp)
+                            .padding(0.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    // Column containing detail row & slider row
+                    Column(modifier = Modifier) {
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 4.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                            Spacer(Modifier.weight(1f))
+                            Row(modifier = Modifier.padding(top = 4.dp)) {
+                                Row(modifier = Modifier
+                                    .background(
+                                        color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                        shape = RoundedCornerShape(16.dp)
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                ) {
+                                    Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                                }
+                            }
+                            Spacer(Modifier.weight(10f))
+                            ClearButton(onClick = { /* Handle button click */ })
+                        }
+                        SigningProgressBar()
+                    }
+                }
+            }
+            if (overlayActive) {
+                Box() {
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0xAA424242))
+                        .clickable { overlayActive = false }) {
+
+                    }
+                    Column(modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 20.dp)
+                        .padding(bottom = 80.dp)
+                        .align(Alignment.Center)
+                        .clip(shape = RoundedCornerShape(20.dp))
+                        .background(Color.White)
+                        .align(Alignment.Center),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(text = "Deposit Request", fontSize = 36.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 32.dp))
+                        Text("Your signature vote is manually requested for this deposit request.",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = 24.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.depositrequestimage),
+                            contentDescription = "Deposit Request Image",
+                            modifier = Modifier
+                                .size(256.dp)
+                                .padding(0.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 48.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.filtericonss2),
+                                contentDescription = "Restfully Placeholder Coach Image",
+                                modifier = Modifier
+                                    .size(16.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                            Spacer(Modifier.weight(1f))
+                            Text("2MwSNR......j36rJo",
+                                textAlign = TextAlign.Right,
+                                modifier = Modifier.padding(horizontal = 24.dp))
+                        }
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 48.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.filtericonss2),
+                                contentDescription = "Restfully Placeholder Coach Image",
+                                modifier = Modifier
+                                    .size(16.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                            Spacer(Modifier.weight(1f))
+                            Text("0.184028000 total",
+                                textAlign = TextAlign.Right,
+                                modifier = Modifier.padding(horizontal = 24.dp))
+                        }
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 48.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.filtericonss2),
+                                contentDescription = "Restfully Placeholder Coach Image",
+                                modifier = Modifier
+                                    .size(16.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                            Spacer(Modifier.weight(1f))
+                            Text("0.0000531 fees",
+                                textAlign = TextAlign.Right,
+                                modifier = Modifier.padding(horizontal = 24.dp))
+                        }
+                        Divider(modifier = Modifier.padding(top = 8.dp).padding(horizontal = 48.dp))
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+@Composable
+fun ClickableRow(onRowClicked: () -> Unit) {
+
+//    onClick = {
+//        onClick()
+//    }
+
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 20.dp)
+        .clickable { onRowClicked() }
+    ) {
+        // sbtc or btc logo
+        Image(
+            painter = painterResource(id = R.drawable.sbtclogo),
+            contentDescription = "Restfully Placeholder Coach Image",
+            modifier = Modifier
+                .size(48.dp)
+                .padding(0.dp),
+            contentScale = ContentScale.Fit
+        )
+        // Column containing detail row & slider row
+        Column(modifier = Modifier) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 4.dp),
+                verticalAlignment = Alignment.Top
+            ) {
+                Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
                 Spacer(Modifier.weight(1f))
-                Image(
-                    painter = painterResource(id = R.drawable.listiconss),
-                    contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier.size(18.dp),
-                    contentScale = ContentScale.Fit
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.gridiconss),
-                    contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier.size(18.dp),
-                    contentScale = ContentScale.Fit
-                )
-            }
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 20.dp)) {
-                // sbtc or btc logo
-                Image(
-                    painter = painterResource(id = R.drawable.sbtclogo),
-                    contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(0.dp),
-                    contentScale = ContentScale.Fit
-                )
-                // Column containing detail row & slider row
-                Column(modifier = Modifier) {
-                    Row(modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
-                        verticalAlignment = Alignment.Top
+                Row(modifier = Modifier.padding(top = 4.dp)) {
+                    Row(modifier = Modifier
+                        .background(
+                            color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
-                        Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                        Spacer(Modifier.weight(1f))
-                        Row(modifier = Modifier.padding(top = 4.dp)) {
-                            Row(modifier = Modifier
-                                .background(
-                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
-                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
-                            }
-                        }
-                        Spacer(Modifier.weight(10f))
-                        ClearButton(onClick = { /* Handle button click */ })
+                        Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
                     }
-                    SigningProgressBar()
                 }
+                Spacer(Modifier.weight(10f))
+                ClearButton(onClick = { /* Handle button click */ })
             }
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
-                // sbtc or btc logo
-                Image(
-                    painter = painterResource(id = R.drawable.btclogo),
-                    contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(0.dp),
-                    contentScale = ContentScale.Fit
-                )
-                // Column containing detail row & slider row
-                Column(modifier = Modifier) {
-                    Row(modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
-                        verticalAlignment = Alignment.Top
-                    ) {
-                        Text(text = "Withdraw", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                        Spacer(Modifier.weight(1f))
-                        Row(modifier = Modifier.padding(top = 4.dp)) {
-                            Row(modifier = Modifier
-                                .background(
-                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
-                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
-                            }
-                        }
-                        Spacer(Modifier.weight(10f))
-                        ClearButton(onClick = { /* Handle button click */ })
-                    }
-                    SigningProgressBar()
-                }
-            }
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
-                // sbtc or btc logo
-                Image(
-                    painter = painterResource(id = R.drawable.sbtclogo),
-                    contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(0.dp),
-                    contentScale = ContentScale.Fit
-                )
-                // Column containing detail row & slider row
-                Column(modifier = Modifier) {
-                    Row(modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
-                        verticalAlignment = Alignment.Top
-                    ) {
-                        Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                        Spacer(Modifier.weight(1f))
-                        Row(modifier = Modifier.padding(top = 4.dp)) {
-                            Row(modifier = Modifier
-                                .background(
-                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
-                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
-                            }
-                        }
-                        Spacer(Modifier.weight(10f))
-                        ClearButton(onClick = { /* Handle button click */ })
-                    }
-                    SigningProgressBar()
-                }
-            }
+            SigningProgressBar()
         }
     }
 }

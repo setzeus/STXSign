@@ -215,51 +215,104 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             contentScale = ContentScale.Fit
                         )
                         Row(modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth().height(48.dp)
                             .padding(horizontal = 48.dp)) {
                             Image(
-                                painter = painterResource(id = R.drawable.filtericonss2),
+                                painter = painterResource(id = R.drawable.walleticonss),
                                 contentDescription = "Restfully Placeholder Coach Image",
                                 modifier = Modifier
-                                    .size(16.dp),
+                                    .size(32.dp),
                                 contentScale = ContentScale.Fit
                             )
                             Spacer(Modifier.weight(1f))
                             Text("2MwSNR......j36rJo",
                                 textAlign = TextAlign.Right,
-                                modifier = Modifier.padding(horizontal = 24.dp))
+                                modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 20.sp
+                            )
                         }
+                        //Spacer(modifier = Modifier.weight(0.5f))
                         Row(modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth().height(48.dp)
                             .padding(horizontal = 48.dp)) {
                             Image(
-                                painter = painterResource(id = R.drawable.filtericonss2),
+                                painter = painterResource(id = R.drawable.bitcoiniconss),
                                 contentDescription = "Restfully Placeholder Coach Image",
                                 modifier = Modifier
-                                    .size(16.dp),
+                                    .size(32.dp),
                                 contentScale = ContentScale.Fit
                             )
                             Spacer(Modifier.weight(1f))
                             Text("0.184028000 total",
                                 textAlign = TextAlign.Right,
-                                modifier = Modifier.padding(horizontal = 24.dp))
+                                modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 20.sp
+                            )
                         }
+                        //Spacer(modifier = Modifier.weight(0.5f))
                         Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 48.dp)) {
+                            .fillMaxWidth().height(48.dp)
+                            .padding(horizontal = 48.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                            ) {
                             Image(
-                                painter = painterResource(id = R.drawable.filtericonss2),
+                                painter = painterResource(id = R.drawable.feeiconss),
                                 contentDescription = "Restfully Placeholder Coach Image",
                                 modifier = Modifier
-                                    .size(16.dp),
+                                    .size(32.dp),
                                 contentScale = ContentScale.Fit
                             )
                             Spacer(Modifier.weight(1f))
                             Text("0.0000531 fees",
                                 textAlign = TextAlign.Right,
-                                modifier = Modifier.padding(horizontal = 24.dp))
+                                modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 20.sp
+                            )
                         }
-                        Divider(modifier = Modifier.padding(top = 8.dp).padding(horizontal = 48.dp))
+                        //Spacer(modifier = Modifier.weight(0.5f))
+                        Divider(modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .padding(horizontal = 48.dp))
+                        //Spacer(modifier = Modifier.weight(0.5f))
+                        Row(modifier = Modifier
+                            .fillMaxWidth().height(48.dp)
+                            .padding(horizontal = 48.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.percenticonss),
+                                contentDescription = "Restfully Placeholder Coach Image",
+                                modifier = Modifier
+                                    .size(32.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                            Spacer(modifier = Modifier.weight(0.5f))
+                            Text("34.64% confirmed",
+                                textAlign = TextAlign.Right,
+                                modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 20.sp
+                            )
+                        }
+                        //Spacer(modifier = Modifier.weight(0.5f))
+                        Row(modifier = Modifier
+                            .fillMaxWidth().height(48.dp)
+                            .padding(horizontal = 48.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.blockiconss),
+                                contentDescription = "Restfully Placeholder Coach Image",
+                                modifier = Modifier
+                                    .size(32.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                            Spacer(Modifier.weight(1f))
+                            Text("54 blocks to expire",
+                                textAlign = TextAlign.Right,
+                                modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 20.sp
+                            )
+                        }
                     }
                 }
             }

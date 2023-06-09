@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
@@ -311,83 +312,89 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 @Composable
 fun ClickableRow(onRowClicked: () -> Unit, requestType: String) {
 
-//    onClick = {
-//        onClick()
-//    }
-
     Row(modifier = Modifier
         .fillMaxWidth()
-        .padding(top = 20.dp)
-        .clickable { onRowClicked() }
+        .height(96.dp)
+        .shadow(elevation = 4.dp)
+        .clickable { onRowClicked()},
+        horizontalArrangement = Arrangement.Center
     ) {
-        // sbtc or btc logo
-        if (requestType == "deposit") {
-            Image(
-                painter = painterResource(id = R.drawable.sbtclogo),
-                contentDescription = "sbtc icon",
-                modifier = Modifier
-                    .size(48.dp)
-                    .padding(0.dp),
-                contentScale = ContentScale.Fit
-            )
-            // Column containing detail row & slider row
-            Column(modifier = Modifier) {
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 4.dp),
-                    verticalAlignment = Alignment.Top
-                ) {
-                    Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                    Spacer(Modifier.weight(1f))
-                    Row(modifier = Modifier.padding(top = 4.dp)) {
-                        Row(modifier = Modifier
-                            .background(
-                                color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                shape = RoundedCornerShape(16.dp)
-                            )
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                        ) {
-                            Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+        Row(modifier = Modifier
+            //.background(Color.Red)
+            .padding(horizontal = 16.dp)
+            .fillMaxHeight(),
+            verticalAlignment = Alignment.CenterVertically,
+            //horizontalArrangement =
+        ) {
+            // sbtc or btc logo
+            if (requestType == "deposit") {
+                Image(
+                    painter = painterResource(id = R.drawable.sbtclogo2),
+                    contentDescription = "sbtc icon",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(0.dp),
+                    contentScale = ContentScale.Fit
+                )
+                // Column containing detail row & slider row
+                Column(modifier = Modifier) {
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 4.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                        Spacer(Modifier.weight(1f))
+                        Row(modifier = Modifier.padding(top = 4.dp)) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                            }
                         }
+                        Spacer(Modifier.weight(10f))
+                        ClearButton(onClick = { /* Handle button click */ })
                     }
-                    Spacer(Modifier.weight(10f))
-                    ClearButton(onClick = { /* Handle button click */ })
+                    SigningProgressBar()
                 }
-                SigningProgressBar()
-            }
-        } else {
-            Image(
-                painter = painterResource(id = R.drawable.btclogo),
-                contentDescription = "btc icon",
-                modifier = Modifier
-                    .size(48.dp)
-                    .padding(0.dp),
-                contentScale = ContentScale.Fit
-            )
-            // Column containing detail row & slider row
-            Column(modifier = Modifier) {
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 4.dp),
-                    verticalAlignment = Alignment.Top
-                ) {
-                    Text(text = "Withdraw", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                    Spacer(Modifier.weight(1f))
-                    Row(modifier = Modifier.padding(top = 4.dp)) {
-                        Row(modifier = Modifier
-                            .background(
-                                color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                shape = RoundedCornerShape(16.dp)
-                            )
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                        ) {
-                            Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+            } else {
+                Image(
+                    painter = painterResource(id = R.drawable.btclogo2),
+                    contentDescription = "btc icon",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(0.dp),
+                    contentScale = ContentScale.Fit
+                )
+                // Column containing detail row & slider row
+                Column(modifier = Modifier) {
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 4.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Text(text = "Withdraw", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                        Spacer(Modifier.weight(1f))
+                        Row(modifier = Modifier.padding(top = 4.dp)) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                            }
                         }
+                        Spacer(Modifier.weight(10f))
+                        ClearButton(onClick = { /* Handle button click */ })
                     }
-                    Spacer(Modifier.weight(10f))
-                    ClearButton(onClick = { /* Handle button click */ })
+                    SigningProgressBar()
                 }
-                SigningProgressBar()
             }
         }
     }

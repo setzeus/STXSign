@@ -19,4 +19,15 @@
     <color name="sbtc_yellow_500">#FFF1BA73</color>
     <color name="green_tag_500">#FF7CDF17</color>
     <color name="green_text_900">#FF366A00</color>
+
+    /// new design colors
+    <color name="gray_text_100">#FF212121</color>
+    <color name="gray_button_400">#FF535353</color>
+    <color name="yellow_tag_200">#FFFEDB63</color>
+    <color name="yellow_text_800">#FF654F04</color>
+    <color name="blue_tag_200">#FFADBCF6</color>
+    <color name="blue_text_800">#FF333C60</color>
+    <color name="green_approve_500">#FF0D9B6C</color>
+    <color name="red_approve_500">#FFC93939</color>
+
 </resources>

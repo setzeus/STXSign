@@ -106,83 +106,13 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         contentScale = ContentScale.Fit
                     )
                 }
-                ClickableRow(onRowClicked = { overlayActive = true })
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)) {
-                    // sbtc or btc logo
-                    Image(
-                        painter = painterResource(id = R.drawable.btclogo),
-                        contentDescription = "Restfully Placeholder Coach Image",
-                        modifier = Modifier
-                            .size(48.dp)
-                            .padding(0.dp),
-                        contentScale = ContentScale.Fit
-                    )
-                    // Column containing detail row & slider row
-                    Column(modifier = Modifier) {
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 4.dp),
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Text(text = "Withdraw", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                            Spacer(Modifier.weight(1f))
-                            Row(modifier = Modifier.padding(top = 4.dp)) {
-                                Row(modifier = Modifier
-                                    .background(
-                                        color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                        shape = RoundedCornerShape(16.dp)
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                ) {
-                                    Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
-                                }
-                            }
-                            Spacer(Modifier.weight(10f))
-                            ClearButton(onClick = { /* Handle button click */ })
-                        }
-                        SigningProgressBar()
-                    }
-                }
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)) {
-                    // sbtc or btc logo
-                    Image(
-                        painter = painterResource(id = R.drawable.sbtclogo),
-                        contentDescription = "Restfully Placeholder Coach Image",
-                        modifier = Modifier
-                            .size(48.dp)
-                            .padding(0.dp),
-                        contentScale = ContentScale.Fit
-                    )
-                    // Column containing detail row & slider row
-                    Column(modifier = Modifier) {
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 4.dp),
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                            Spacer(Modifier.weight(1f))
-                            Row(modifier = Modifier.padding(top = 4.dp)) {
-                                Row(modifier = Modifier
-                                    .background(
-                                        color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                        shape = RoundedCornerShape(16.dp)
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                ) {
-                                    Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
-                                }
-                            }
-                            Spacer(Modifier.weight(10f))
-                            ClearButton(onClick = { /* Handle button click */ })
-                        }
-                        SigningProgressBar()
-                    }
-                }
+                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
+                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "withdraw")
+                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
+                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "withdraw")
+                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
+                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
+                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
             }
             if (overlayActive) {
                 Box() {
@@ -210,9 +140,11 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             painter = painterResource(id = R.drawable.depositrequestimage),
                             contentDescription = "Deposit Request Image",
                             modifier = Modifier
-                                .size(256.dp)
-                                .padding(0.dp),
-                            contentScale = ContentScale.Fit
+                                .heightIn(min = 0.dp, max = 128.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 32.dp)
+                                .padding(vertical = 32.dp),
+                            contentScale = ContentScale.FillWidth
                         )
                         Row(modifier = Modifier
                             .fillMaxWidth().height(48.dp)
@@ -313,6 +245,61 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                                 fontSize = 20.sp
                             )
                         }
+                        // Last of Overlays 5 Rows
+                        Row {
+                            Row(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(top = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                            shape = RoundedCornerShape(24.dp)
+                                        )
+                                        .padding(horizontal = 40.dp, vertical = 12.dp)
+                                        .wrapContentWidth(Alignment.CenterHorizontally)
+                                ) {
+                                    Text(
+                                        text = "approve",
+                                        color = colorResource(id = R.color.green_text_900),
+                                        style = MaterialTheme.typography.body2,
+                                        fontSize = 20.sp
+                                    )
+                                }
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(top = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                            shape = RoundedCornerShape(24.dp)
+                                        )
+                                        .padding(horizontal = 40.dp, vertical = 12.dp)
+                                        .wrapContentWidth(Alignment.CenterHorizontally)
+                                ) {
+                                    Text(
+                                        text = "reject",
+                                        color = colorResource(id = R.color.green_text_900),
+                                        style = MaterialTheme.typography.body2,
+                                        fontSize = 20.sp
+                                    )
+                                }
+                            }
+                        }
+
+
+
+
                     }
                 }
             }
@@ -322,7 +309,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 }
 
 @Composable
-fun ClickableRow(onRowClicked: () -> Unit) {
+fun ClickableRow(onRowClicked: () -> Unit, requestType: String) {
 
 //    onClick = {
 //        onClick()
@@ -334,38 +321,74 @@ fun ClickableRow(onRowClicked: () -> Unit) {
         .clickable { onRowClicked() }
     ) {
         // sbtc or btc logo
-        Image(
-            painter = painterResource(id = R.drawable.sbtclogo),
-            contentDescription = "Restfully Placeholder Coach Image",
-            modifier = Modifier
-                .size(48.dp)
-                .padding(0.dp),
-            contentScale = ContentScale.Fit
-        )
-        // Column containing detail row & slider row
-        Column(modifier = Modifier) {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 4.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                Spacer(Modifier.weight(1f))
-                Row(modifier = Modifier.padding(top = 4.dp)) {
-                    Row(modifier = Modifier
-                        .background(
-                            color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                    ) {
-                        Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+        if (requestType == "deposit") {
+            Image(
+                painter = painterResource(id = R.drawable.sbtclogo),
+                contentDescription = "sbtc icon",
+                modifier = Modifier
+                    .size(48.dp)
+                    .padding(0.dp),
+                contentScale = ContentScale.Fit
+            )
+            // Column containing detail row & slider row
+            Column(modifier = Modifier) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 4.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                    Spacer(Modifier.weight(1f))
+                    Row(modifier = Modifier.padding(top = 4.dp)) {
+                        Row(modifier = Modifier
+                            .background(
+                                color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                        }
                     }
+                    Spacer(Modifier.weight(10f))
+                    ClearButton(onClick = { /* Handle button click */ })
                 }
-                Spacer(Modifier.weight(10f))
-                ClearButton(onClick = { /* Handle button click */ })
+                SigningProgressBar()
             }
-            SigningProgressBar()
+        } else {
+            Image(
+                painter = painterResource(id = R.drawable.btclogo),
+                contentDescription = "btc icon",
+                modifier = Modifier
+                    .size(48.dp)
+                    .padding(0.dp),
+                contentScale = ContentScale.Fit
+            )
+            // Column containing detail row & slider row
+            Column(modifier = Modifier) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 4.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    Text(text = "Withdraw", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                    Spacer(Modifier.weight(1f))
+                    Row(modifier = Modifier.padding(top = 4.dp)) {
+                        Row(modifier = Modifier
+                            .background(
+                                color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
+                        }
+                    }
+                    Spacer(Modifier.weight(10f))
+                    ClearButton(onClick = { /* Handle button click */ })
+                }
+                SigningProgressBar()
+            }
         }
     }
 }

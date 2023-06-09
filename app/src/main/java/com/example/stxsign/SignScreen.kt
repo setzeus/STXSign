@@ -20,9 +20,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
@@ -65,7 +67,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize().paint(painterResource(id = R.drawable.signviewbg), contentScale = ContentScale.FillBounds)) {
             Column( modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)) {
@@ -94,18 +96,6 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         )
                     }
                     Spacer(Modifier.weight(1f))
-                    Image(
-                        painter = painterResource(id = R.drawable.listiconss),
-                        contentDescription = "Restfully Placeholder Coach Image",
-                        modifier = Modifier.size(18.dp),
-                        contentScale = ContentScale.Fit
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.gridiconss),
-                        contentDescription = "Restfully Placeholder Coach Image",
-                        modifier = Modifier.size(18.dp),
-                        contentScale = ContentScale.Fit
-                    )
                 }
                 ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
                 ClickableRow(onRowClicked = { overlayActive = true }, requestType = "withdraw")
@@ -148,7 +138,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             contentScale = ContentScale.FillWidth
                         )
                         Row(modifier = Modifier
-                            .fillMaxWidth().height(48.dp)
+                            .fillMaxWidth()
+                            .height(48.dp)
                             .padding(horizontal = 48.dp)) {
                             Image(
                                 painter = painterResource(id = R.drawable.walleticonss),
@@ -166,7 +157,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         }
                         //Spacer(modifier = Modifier.weight(0.5f))
                         Row(modifier = Modifier
-                            .fillMaxWidth().height(48.dp)
+                            .fillMaxWidth()
+                            .height(48.dp)
                             .padding(horizontal = 48.dp)) {
                             Image(
                                 painter = painterResource(id = R.drawable.bitcoiniconss),
@@ -184,7 +176,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         }
                         //Spacer(modifier = Modifier.weight(0.5f))
                         Row(modifier = Modifier
-                            .fillMaxWidth().height(48.dp)
+                            .fillMaxWidth()
+                            .height(48.dp)
                             .padding(horizontal = 48.dp),
                             verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -208,7 +201,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             .padding(horizontal = 48.dp))
                         //Spacer(modifier = Modifier.weight(0.5f))
                         Row(modifier = Modifier
-                            .fillMaxWidth().height(48.dp)
+                            .fillMaxWidth()
+                            .height(48.dp)
                             .padding(horizontal = 48.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -228,7 +222,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         }
                         //Spacer(modifier = Modifier.weight(0.5f))
                         Row(modifier = Modifier
-                            .fillMaxWidth().height(48.dp)
+                            .fillMaxWidth()
+                            .height(48.dp)
                             .padding(horizontal = 48.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -258,7 +253,9 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .background(
-                                            color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                            color = colorResource(id = R.color.green_tag_500).copy(
+                                                alpha = .5f
+                                            ),
                                             shape = RoundedCornerShape(24.dp)
                                         )
                                         .padding(horizontal = 40.dp, vertical = 12.dp)
@@ -282,7 +279,9 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .background(
-                                            color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
+                                            color = colorResource(id = R.color.green_tag_500).copy(
+                                                alpha = .5f
+                                            ),
                                             shape = RoundedCornerShape(24.dp)
                                         )
                                         .padding(horizontal = 40.dp, vertical = 12.dp)
@@ -310,97 +309,6 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 }
 
 @Composable
-fun ClickableRow(onRowClicked: () -> Unit, requestType: String) {
-
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .height(96.dp)
-        .shadow(elevation = 4.dp)
-        .clickable { onRowClicked()},
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Row(modifier = Modifier
-            //.background(Color.Red)
-            .padding(horizontal = 16.dp)
-            .fillMaxHeight(),
-            verticalAlignment = Alignment.CenterVertically,
-            //horizontalArrangement =
-        ) {
-            // sbtc or btc logo
-            if (requestType == "deposit") {
-                Image(
-                    painter = painterResource(id = R.drawable.sbtclogo2),
-                    contentDescription = "sbtc icon",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(0.dp),
-                    contentScale = ContentScale.Fit
-                )
-                // Column containing detail row & slider row
-                Column(modifier = Modifier) {
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 4.dp),
-                        verticalAlignment = Alignment.Top
-                    ) {
-                        Text(text = "Deposit", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                        Spacer(Modifier.weight(1f))
-                        Row(modifier = Modifier.padding(top = 4.dp)) {
-                            Row(modifier = Modifier
-                                .background(
-                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
-                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
-                            }
-                        }
-                        Spacer(Modifier.weight(10f))
-                        ClearButton(onClick = { /* Handle button click */ })
-                    }
-                    SigningProgressBar()
-                }
-            } else {
-                Image(
-                    painter = painterResource(id = R.drawable.btclogo2),
-                    contentDescription = "btc icon",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(0.dp),
-                    contentScale = ContentScale.Fit
-                )
-                // Column containing detail row & slider row
-                Column(modifier = Modifier) {
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 4.dp),
-                        verticalAlignment = Alignment.Top
-                    ) {
-                        Text(text = "Withdraw", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                        Spacer(Modifier.weight(1f))
-                        Row(modifier = Modifier.padding(top = 4.dp)) {
-                            Row(modifier = Modifier
-                                .background(
-                                    color = colorResource(id = R.color.green_tag_500).copy(alpha = .5f),
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
-                                Text(text = "autosigned", color = colorResource(id = R.color.green_text_900), style = MaterialTheme.typography.body2)
-                            }
-                        }
-                        Spacer(Modifier.weight(10f))
-                        ClearButton(onClick = { /* Handle button click */ })
-                    }
-                    SigningProgressBar()
-                }
-            }
-        }
-    }
-}
-
-@Composable
 fun ClearButton(onClick: () -> Unit) {
     var rotated by remember { mutableStateOf(false) }
 
@@ -423,6 +331,119 @@ fun ClearButton(onClick: () -> Unit) {
 //            modifier = Modifier.size(32.dp),
 //        )
     }
+}
+
+@Composable
+fun ClickableRow(onRowClicked: () -> Unit, requestType: String) {
+
+    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onRowClicked() }
+            .shadow(elevation = 4.dp)
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(8.dp)
+            ),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            if (requestType == "deposit") {
+                Column(modifier = Modifier.padding(top = 12.dp)) {
+                    Row(modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 12.dp)){
+                        Image(
+                            painter = painterResource(id = R.drawable.sbtclogo2),
+                            contentDescription = "sbtc icon",
+                            modifier = Modifier
+                                .size(56.dp)
+                                .padding(0.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Column(modifier = Modifier.padding(start = 8.dp)) {
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Text(text = "sBTC", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                                Spacer(Modifier.weight(1f))
+                                Image(
+                                    painter = painterResource(id = R.drawable.greencheckss),
+                                    contentDescription = "green check",
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .padding(0.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+                                Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                            }
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Row(modifier = Modifier.padding(top = 0.dp)) {
+                                    Row(modifier = Modifier
+                                        .background(
+                                            color = colorResource(id = R.color.blue_tag_200).copy(alpha = .5f),
+                                            shape = RoundedCornerShape(16.dp)
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 4.dp))
+                                    {
+                                        Text(text = "Deposit", color = colorResource(id = R.color.blue_text_800), style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
+                                    }
+                                }
+                                Spacer(Modifier.weight(1f))
+                                Text(text = "53% confirmed", modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                            }
+                        }
+                    }
+                    SigningProgressBar()
+                }
+            } else {
+                Column(modifier = Modifier.padding(top = 12.dp)) {
+                    Row(modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 12.dp)){
+                        Image(
+                            painter = painterResource(id = R.drawable.btclogo2),
+                            contentDescription = "btc icon",
+                            modifier = Modifier
+                                .size(56.dp)
+                                .padding(0.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Column(modifier = Modifier.padding(start = 8.dp)) {
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Text(text = "Bitcoin", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                                Spacer(Modifier.weight(1f))
+                                Image(
+                                    painter = painterResource(id = R.drawable.redcrossss),
+                                    contentDescription = "red cross",
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .padding(0.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+                                Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                            }
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Row(modifier = Modifier.padding(top = 0.dp)) {
+                                    Row(modifier = Modifier
+                                        .background(
+                                            color = colorResource(id = R.color.yellow_tag_200).copy(alpha = .5f),
+                                            shape = RoundedCornerShape(16.dp)
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 4.dp))
+                                    {
+                                        Text(text = "Withdraw", color = colorResource(id = R.color.yellow_text_800), style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
+                                    }
+                                }
+                                Spacer(Modifier.weight(1f))
+                                Text(text = "53% confirmed", modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                            }
+                        }
+                    }
+                    SigningProgressBar()
+                }
+            }
+
+        }
+    }
+
 }
 
 

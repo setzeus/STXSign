@@ -67,16 +67,33 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        Box(modifier = Modifier.fillMaxSize().paint(painterResource(id = R.drawable.signviewbg), contentScale = ContentScale.FillBounds)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .paint(
+                painterResource(id = R.drawable.signviewbg),
+                contentScale = ContentScale.FillBounds
+            )) {
             Column( modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)) {
                 Row() {
-                    Text(text = requestsText, fontSize = 36.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                    Text(text = " Pending Reqs", fontSize = 36.sp, fontWeight = FontWeight.Light, modifier = Modifier)
+                    Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Bold, modifier = Modifier)
+                    Row(modifier = Modifier
+                        .padding(start = 8.dp)
+                        .height(40.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Row(modifier = Modifier
+                            .background(
+                                color = colorResource(id = R.color.gray_text_100),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .padding(horizontal = 12.dp, vertical = 4.dp))
+                        {
+                            Text(text = "2", color = Color.White, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
+                        }
+                    }
                 }
                 Row(modifier = Modifier) {
-                    Text("sort by", fontWeight = FontWeight.ExtraLight, fontSize = 16.sp)
+                    Text("sort by", fontWeight = FontWeight.Light, fontSize = 16.sp)
                     Text(" time to expire", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     Box(
                         modifier = Modifier
@@ -87,23 +104,26 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             )
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.filtericonss2),
+                            painter = painterResource(id = R.drawable.chevtopiconss),
                             contentDescription = "Restfully Placeholder Coach Image",
                             modifier = Modifier
                                 .size(16.dp)
-                                .align(Alignment.Center),
+                                .align(Alignment.Center)
+                                .rotate(180f),
                             contentScale = ContentScale.Fit
                         )
                     }
                     Spacer(Modifier.weight(1f))
                 }
-                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
-                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "withdraw")
-                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
-                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "withdraw")
-                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
-                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
-                ClickableRow(onRowClicked = { overlayActive = true }, requestType = "deposit")
+                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = true, signedAuto = false, signedVote = true)
+                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = false, signedAuto = true, signedVote = false)
+                Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 8.dp), color = colorResource(
+                    id = R.color.gray_button_400
+                ))
+                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = true, signedAuto = true, signedVote = true)
+                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = true, signedAuto = true, signedVote = false)
+                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = false, signedAuto = false, signedVote = false)
+                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = false, signedAuto = true, signedVote = true)
             }
             if (overlayActive) {
                 Box() {
@@ -334,9 +354,11 @@ fun ClearButton(onClick: () -> Unit) {
 }
 
 @Composable
-fun ClickableRow(onRowClicked: () -> Unit, requestType: String) {
+fun ClickableRow(onRowClicked: () -> Unit, isDeposit: Boolean, signedAuto: Boolean, signedVote: Boolean) {
 
-    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 6.dp)) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .clickable { onRowClicked() }
@@ -347,7 +369,7 @@ fun ClickableRow(onRowClicked: () -> Unit, requestType: String) {
             ),
             horizontalArrangement = Arrangement.Center
         ) {
-            if (requestType == "deposit") {
+            if (isDeposit) {
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     Row(modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -364,21 +386,42 @@ fun ClickableRow(onRowClicked: () -> Unit, requestType: String) {
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
                                 Text(text = "sBTC", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
                                 Spacer(Modifier.weight(1f))
-                                Image(
-                                    painter = painterResource(id = R.drawable.greencheckss),
-                                    contentDescription = "green check",
-                                    modifier = Modifier
-                                        .size(16.dp)
-                                        .padding(0.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-                                Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                if (signedVote) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.greencheckss),
+                                        contentDescription = "green check",
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .padding(0.dp),
+                                        contentScale = ContentScale.Fit
+                                    )
+                                } else {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.redcrossss),
+                                        contentDescription = "red cross",
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .padding(0.dp),
+                                        contentScale = ContentScale.Fit
+                                    )
+                                }
+                                if (signedAuto && signedVote) {
+                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                } else if (!signedAuto && !signedVote)  {
+                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                } else if (!signedAuto && signedVote) {
+                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                } else if (signedAuto && !signedVote) {
+                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                }
                             }
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
                                 Row(modifier = Modifier.padding(top = 0.dp)) {
                                     Row(modifier = Modifier
                                         .background(
-                                            color = colorResource(id = R.color.blue_tag_200).copy(alpha = .5f),
+                                            color = colorResource(id = R.color.blue_tag_200).copy(
+                                                alpha = .5f
+                                            ),
                                             shape = RoundedCornerShape(16.dp)
                                         )
                                         .padding(horizontal = 12.dp, vertical = 4.dp))
@@ -410,21 +453,42 @@ fun ClickableRow(onRowClicked: () -> Unit, requestType: String) {
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
                                 Text(text = "Bitcoin", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
                                 Spacer(Modifier.weight(1f))
-                                Image(
-                                    painter = painterResource(id = R.drawable.redcrossss),
-                                    contentDescription = "red cross",
-                                    modifier = Modifier
-                                        .size(16.dp)
-                                        .padding(0.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-                                Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                if (signedVote) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.greencheckss),
+                                        contentDescription = "green check",
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .padding(0.dp),
+                                        contentScale = ContentScale.Fit
+                                    )
+                                } else {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.redcrossss),
+                                        contentDescription = "red cross",
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .padding(0.dp),
+                                        contentScale = ContentScale.Fit
+                                    )
+                                }
+                                if (signedAuto && signedVote) {
+                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                } else if (!signedAuto && !signedVote)  {
+                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                } else if (!signedAuto && signedVote) {
+                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                } else if (signedAuto && !signedVote) {
+                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                }
                             }
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
                                 Row(modifier = Modifier.padding(top = 0.dp)) {
                                     Row(modifier = Modifier
                                         .background(
-                                            color = colorResource(id = R.color.yellow_tag_200).copy(alpha = .5f),
+                                            color = colorResource(id = R.color.yellow_tag_200).copy(
+                                                alpha = .5f
+                                            ),
                                             shape = RoundedCornerShape(16.dp)
                                         )
                                         .padding(horizontal = 12.dp, vertical = 4.dp))

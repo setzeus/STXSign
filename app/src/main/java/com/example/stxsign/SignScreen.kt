@@ -72,13 +72,14 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
             .fillMaxSize()
             .paint(
                 painterResource(id = R.drawable.signviewbg),
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.FillBounds,
+                alpha = 0.5f
             )) {
             Column( modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 12.dp)
                 .padding(top = 16.dp)) {
                 Row() {
-                    Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Bold, modifier = Modifier)
+                    Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Black, modifier = Modifier)
                     Row(modifier = Modifier
                         .padding(start = 8.dp)
                         .height(40.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -118,7 +119,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                 }
                 ClickableCard(onRowClicked = {}, isDeposit = true)
                 ClickableCard(onRowClicked = {}, isDeposit = false)
-                Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 8.dp), color = colorResource(
+                Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 8.dp), color = colorResource(
                     id = R.color.gray_button_400
                 ))
                 ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = true, signedAuto = true, signedVote = true)
@@ -149,13 +150,13 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(horizontal = 24.dp))
                         Image(
-                            painter = painterResource(id = R.drawable.depositrequestimage),
+                            painter = painterResource(id = R.drawable.sbtctobtcdiagram),
                             contentDescription = "Deposit Request Image",
                             modifier = Modifier
                                 .heightIn(min = 0.dp, max = 128.dp)
                                 .fillMaxWidth()
-                                .padding(horizontal = 32.dp)
-                                .padding(vertical = 32.dp),
+                                .padding(horizontal = 16.dp)
+                                .padding(vertical = 8.dp),
                             contentScale = ContentScale.FillWidth
                         )
                         Row(modifier = Modifier
@@ -263,62 +264,37 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             )
                         }
                         // Last of Overlays 5 Rows
-                        Row {
-                            Row(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    ,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(
-                                            color = colorResource(id = R.color.green_tag_500).copy(
-                                                alpha = .5f
-                                            ),
-                                            shape = RoundedCornerShape(24.dp)
-                                        )
-                                        .padding(horizontal = 40.dp, vertical = 12.dp)
-                                        .wrapContentWidth(Alignment.CenterHorizontally)
-                                ) {
-                                    Text(
-                                        text = "approve",
-                                        color = colorResource(id = R.color.green_text_900),
-                                        style = MaterialTheme.typography.body2,
-                                        fontSize = 20.sp
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.padding(vertical = 12.dp).padding(horizontal = 16.dp)) {
+                            Row(modifier = Modifier.weight(1f)) {
+                                Row(modifier = Modifier
+                                    .background(
+                                        color = colorResource(id = R.color.gray_button_400),
+                                        shape = RoundedCornerShape(24.dp)
                                     )
+                                    .padding(vertical = 6.dp).fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                )
+                                {
+                                    Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                                 }
                             }
-                            Row(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    ,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(
-                                            color = colorResource(id = R.color.green_tag_500).copy(
-                                                alpha = .5f
-                                            ),
-                                            shape = RoundedCornerShape(24.dp)
-                                        )
-                                        .padding(horizontal = 40.dp, vertical = 12.dp)
-                                        .wrapContentWidth(Alignment.CenterHorizontally)
-                                ) {
-                                    Text(
-                                        text = "reject",
-                                        color = colorResource(id = R.color.green_text_900),
-                                        style = MaterialTheme.typography.body2,
-                                        fontSize = 20.sp
+                            Row(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
+                                Row(modifier = Modifier.border(width = 1.dp, color =  colorResource(id = R.color.gray_button_400), shape = RoundedCornerShape(16.dp))
+                                    .background(
+                                        color = Color.White,
+                                        shape = RoundedCornerShape(24.dp)
                                     )
+                                    .padding(vertical = 6.dp).fillMaxWidth(),
+                                    //.width(112.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                    //.padding(horizontal = 12.dp, vertical = 4.dp)
+                                )
+
+                                {
+                                    Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                                 }
                             }
                         }
-
-
 
 
                     }
@@ -329,30 +305,25 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
     }
 }
 
-@Composable
-fun ClearButton(onClick: () -> Unit) {
-    var rotated by remember { mutableStateOf(false) }
-
-    IconButton(
-        onClick = {
-            rotated = !rotated
-            onClick()
-        },
-        modifier = Modifier.rotate(if (rotated) -90f else 0f)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.chevlefticonss),
-            contentDescription = "Restfully Placeholder Coach Image",
-            modifier = Modifier.size(20.dp),
-            contentScale = ContentScale.Fit
-        )
-//        Icon(
-//            Icons.Default.KeyboardArrowLeft,
-//            contentDescription = "open",
-//            modifier = Modifier.size(32.dp),
+//@Composable
+//fun ClearButton(onClick: () -> Unit) {
+//    var rotated by remember { mutableStateOf(false) }
+//
+//    IconButton(
+//        onClick = {
+//            rotated = !rotated
+//            onClick()
+//        },
+//        modifier = Modifier.rotate(if (rotated) -90f else 0f)
+//    ) {
+//        Image(
+//            painter = painterResource(id = R.drawable.chevlefticonss),
+//            contentDescription = "Restfully Placeholder Coach Image",
+//            modifier = Modifier.size(20.dp),
+//            contentScale = ContentScale.Fit
 //        )
-    }
-}
+//    }
+//}
 
 @Composable
 fun ClickableRow(onRowClicked: () -> Unit, isDeposit: Boolean, signedAuto: Boolean, signedVote: Boolean) {

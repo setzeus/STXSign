@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.*
@@ -115,8 +116,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                     }
                     Spacer(Modifier.weight(1f))
                 }
-                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = true, signedAuto = false, signedVote = true)
-                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = false, signedAuto = true, signedVote = false)
+                ClickableCard(onRowClicked = {}, isDeposit = true)
+                ClickableCard(onRowClicked = {}, isDeposit = false)
                 Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 8.dp), color = colorResource(
                     id = R.color.gray_button_400
                 ))
@@ -266,7 +267,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             Row(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(top = 4.dp),
+                                    ,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Row(
@@ -292,7 +293,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             Row(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(top = 4.dp),
+                                    ,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Row(
@@ -502,6 +503,191 @@ fun ClickableRow(onRowClicked: () -> Unit, isDeposit: Boolean, signedAuto: Boole
                         }
                     }
                     SigningProgressBar()
+                }
+            }
+
+        }
+    }
+
+}
+
+@Composable
+fun ClickableCard(onRowClicked: () -> Unit, isDeposit: Boolean) {
+
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 6.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onRowClicked() }
+            .shadow(elevation = 4.dp)
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(8.dp)
+            ),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            if (isDeposit) {
+                Column(modifier = Modifier.padding(top = 12.dp)) {
+                    Row(modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 12.dp)){
+                        Image(
+                            painter = painterResource(id = R.drawable.sbtclogo2),
+                            contentDescription = "sbtc icon",
+                            modifier = Modifier
+                                .size(56.dp)
+                                .padding(0.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Column(modifier = Modifier.padding(start = 8.dp)) {
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Text(text = "sBTC", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                                Spacer(Modifier.weight(1f))
+                                Image(
+                                    painter = painterResource(id = R.drawable.chevrighticonss),
+                                    contentDescription = "right arrow",
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .padding(0.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+                            }
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Row(modifier = Modifier.padding(top = 0.dp)) {
+                                    Row(modifier = Modifier
+                                        .background(
+                                            color = colorResource(id = R.color.blue_tag_200).copy(
+                                                alpha = .5f
+                                            ),
+                                            shape = RoundedCornerShape(16.dp)
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 4.dp))
+                                    {
+                                        Text(text = "Deposit", color = colorResource(id = R.color.blue_text_800), style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
+                                    }
+                                }
+                                Spacer(Modifier.weight(1f))
+                                Text(text = "53% confirmed", modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                            }
+                        }
+                    }
+                    SigningProgressBar()
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.padding(vertical = 12.dp).padding(horizontal = 16.dp)) {
+                        Row(modifier = Modifier.weight(1f)) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.gray_button_400),
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                                .padding(vertical = 6.dp).fillMaxWidth(),
+                                //.width(112.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                                //.padding(horizontal = 12.dp, vertical = 4.dp)
+                            )
+                            {
+                                Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                        Row(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
+                            Row(modifier = Modifier.border(width = 1.dp, color =  colorResource(id = R.color.gray_button_400), shape = RoundedCornerShape(16.dp))
+                                .background(
+                                    color = Color.White,
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                                .padding(vertical = 6.dp).fillMaxWidth(),
+                                //.width(112.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                                //.padding(horizontal = 12.dp, vertical = 4.dp)
+                            )
+
+                            {
+                                Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                        Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
+                    }
+                }
+            } else {
+                Column(modifier = Modifier.padding(top = 12.dp)) {
+                    Row(modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 12.dp)){
+                        Image(
+                            painter = painterResource(id = R.drawable.btclogo2),
+                            contentDescription = "btc icon",
+                            modifier = Modifier
+                                .size(56.dp)
+                                .padding(0.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Column(modifier = Modifier.padding(start = 8.dp)) {
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Text(text = "Bitcoin", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                                Spacer(Modifier.weight(1f))
+                                Image(
+                                    painter = painterResource(id = R.drawable.chevrighticonss),
+                                    contentDescription = "right arrow",
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .padding(0.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+                            }
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Row(modifier = Modifier.padding(top = 0.dp)) {
+                                    Row(modifier = Modifier
+                                        .background(
+                                            color = colorResource(id = R.color.yellow_tag_200).copy(
+                                                alpha = .5f
+                                            ),
+                                            shape = RoundedCornerShape(16.dp)
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 4.dp))
+                                    {
+                                        Text(text = "Withdraw", color = colorResource(id = R.color.yellow_text_800), style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
+                                    }
+                                }
+                                Spacer(Modifier.weight(1f))
+                                Text(text = "53% confirmed", modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                            }
+                        }
+                    }
+                    SigningProgressBar()
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.padding(vertical = 12.dp).padding(horizontal = 16.dp)) {
+                        Row(modifier = Modifier.weight(1f)) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.gray_button_400),
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                                .padding(vertical = 6.dp).fillMaxWidth(),
+                                //.width(112.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                                //.padding(horizontal = 12.dp, vertical = 4.dp)
+                            )
+                            {
+                                Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                        Row(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
+                            Row(modifier = Modifier.border(width = 1.dp, color =  colorResource(id = R.color.gray_button_400), shape = RoundedCornerShape(16.dp))
+                                .background(
+                                    color = Color.White,
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                                .padding(vertical = 6.dp).fillMaxWidth(),
+                                //.width(112.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                                //.padding(horizontal = 12.dp, vertical = 4.dp)
+                            )
+
+                            {
+                                Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                        Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
+                    }
                 }
             }
 

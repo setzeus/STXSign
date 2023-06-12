@@ -119,7 +119,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                 }
                 ClickableCard(onRowClicked = {}, isDeposit = true)
                 ClickableCard(onRowClicked = {}, isDeposit = false)
-                Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 8.dp), color = colorResource(
+                Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 16.dp), color = colorResource(
                     id = R.color.gray_button_400
                 ))
                 ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = true, signedAuto = true, signedVote = true)
@@ -136,10 +136,10 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 
                     }
                     Column(modifier = Modifier
-                        .fillMaxSize()
+                        //.fillMaxSize()
                         .padding(horizontal = 20.dp)
                         .padding(top = 20.dp)
-                        .padding(bottom = 80.dp)
+                        .padding(bottom = 128.dp)
                         .align(Alignment.Center)
                         .clip(shape = RoundedCornerShape(20.dp))
                         .background(Color.White)
@@ -272,7 +272,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         Row(modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp)
-                            .padding(horizontal = 48.dp),
+                            .padding(horizontal = 48.dp)
+                            .padding(bottom = 12.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Image(
@@ -296,7 +297,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                                 fontSize = 16.sp
                             )
                         }
-                        // Last of Overlays 5 Rows
+                        SigningProgressBar()
+                        // Bottom CTAs
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.padding(vertical = 12.dp).padding(horizontal = 16.dp)) {
                             Row(modifier = Modifier.weight(1f)) {
                                 Row(modifier = Modifier
@@ -328,8 +330,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                                 }
                             }
                         }
-
-
+                        Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Medium)
                     }
                 }
             }

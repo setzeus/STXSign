@@ -148,7 +148,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         Text(text = "Deposit Request", fontSize = 36.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 32.dp))
                         Text("Your signature vote is manually requested for this deposit request.",
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(horizontal = 24.dp))
+                            modifier = Modifier.padding(horizontal = 24.dp), fontSize = 16.sp)
                         Image(
                             painter = painterResource(id = R.drawable.sbtctobtcdiagram),
                             contentDescription = "Deposit Request Image",
@@ -162,38 +162,52 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         Row(modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp)
-                            .padding(horizontal = 48.dp)) {
+                            .padding(horizontal = 48.dp),
+                            verticalAlignment = Alignment.CenterVertically) {
                             Image(
                                 painter = painterResource(id = R.drawable.walleticonss),
-                                contentDescription = "Restfully Placeholder Coach Image",
+                                contentDescription = "Wallet Icon",
                                 modifier = Modifier
-                                    .size(32.dp),
+                                    .size(28.dp),
                                 contentScale = ContentScale.Fit
                             )
+                            Text("Address",
+                                textAlign = TextAlign.Left,
+                                modifier = Modifier.padding(start = 8.dp),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.ExtraBold
+                            )
                             Spacer(Modifier.weight(1f))
-                            Text("2MwSNR......j36rJo",
+                            Text("2MwS....6rJo",
                                 textAlign = TextAlign.Right,
-                                modifier = Modifier.padding(horizontal = 24.dp),
-                                fontSize = 20.sp
+                                //modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 16.sp
                             )
                         }
                         //Spacer(modifier = Modifier.weight(0.5f))
                         Row(modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp)
-                            .padding(horizontal = 48.dp)) {
+                            .padding(horizontal = 48.dp),
+                            verticalAlignment = Alignment.CenterVertically) {
                             Image(
                                 painter = painterResource(id = R.drawable.bitcoiniconss),
-                                contentDescription = "Restfully Placeholder Coach Image",
+                                contentDescription = "Bitcoin Icon",
                                 modifier = Modifier
-                                    .size(32.dp),
+                                    .size(28.dp),
                                 contentScale = ContentScale.Fit
                             )
+                            Text("Amount",
+                                textAlign = TextAlign.Left,
+                                modifier = Modifier.padding(start = 8.dp),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.ExtraBold
+                            )
                             Spacer(Modifier.weight(1f))
-                            Text("0.184028000 total",
+                            Text("0.18402042",
                                 textAlign = TextAlign.Right,
-                                modifier = Modifier.padding(horizontal = 24.dp),
-                                fontSize = 20.sp
+                                //modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 16.sp
                             )
                         }
                         //Spacer(modifier = Modifier.weight(0.5f))
@@ -205,16 +219,21 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                             ) {
                             Image(
                                 painter = painterResource(id = R.drawable.feeiconss),
-                                contentDescription = "Restfully Placeholder Coach Image",
+                                contentDescription = "Fees Icon",
                                 modifier = Modifier
-                                    .size(32.dp),
+                                    .size(28.dp),
                                 contentScale = ContentScale.Fit
                             )
+                            Text("Fees",
+                                textAlign = TextAlign.Left,
+                                modifier = Modifier.padding(start = 8.dp),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.ExtraBold
+                            )
                             Spacer(Modifier.weight(1f))
-                            Text("0.0000531 fees",
+                            Text("0.000251",
                                 textAlign = TextAlign.Right,
-                                modifier = Modifier.padding(horizontal = 24.dp),
-                                fontSize = 20.sp
+                                fontSize = 16.sp
                             )
                         }
                         //Spacer(modifier = Modifier.weight(0.5f))
@@ -230,17 +249,24 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.percenticonss),
-                                contentDescription = "Restfully Placeholder Coach Image",
+                                contentDescription = "% Icon",
                                 modifier = Modifier
-                                    .size(32.dp),
+                                    .size(28.dp),
                                 contentScale = ContentScale.Fit
                             )
-                            Spacer(modifier = Modifier.weight(0.5f))
-                            Text("34.64% confirmed",
-                                textAlign = TextAlign.Right,
-                                modifier = Modifier.padding(horizontal = 24.dp),
-                                fontSize = 20.sp
+                            Text("Confirmed",
+                                textAlign = TextAlign.Left,
+                                modifier = Modifier.padding(start = 8.dp),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.ExtraBold
                             )
+                            Spacer(Modifier.weight(1f))
+                            Text("42.53%",
+                                textAlign = TextAlign.Right,
+                                //modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 16.sp
+                            )
+
                         }
                         //Spacer(modifier = Modifier.weight(0.5f))
                         Row(modifier = Modifier
@@ -251,16 +277,23 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.blockiconss),
-                                contentDescription = "Restfully Placeholder Coach Image",
+                                contentDescription = "Block Icon",
                                 modifier = Modifier
-                                    .size(32.dp),
+                                    .size(28.dp),
                                 contentScale = ContentScale.Fit
                             )
+                            Text("Expiration",
+                                textAlign = TextAlign.Left,
+                                modifier = Modifier.padding(start = 8.dp),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.ExtraBold
+                            )
+
                             Spacer(Modifier.weight(1f))
-                            Text("54 blocks to expire",
+                            Text("56 blocks",
                                 textAlign = TextAlign.Right,
-                                modifier = Modifier.padding(horizontal = 24.dp),
-                                fontSize = 20.sp
+                                //modifier = Modifier.padding(horizontal = 24.dp),
+                                fontSize = 16.sp
                             )
                         }
                         // Last of Overlays 5 Rows

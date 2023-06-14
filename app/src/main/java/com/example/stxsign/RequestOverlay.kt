@@ -28,7 +28,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
         Box(modifier = Modifier
             .fillMaxSize()
             .background(Color(0xAA424242))
-            .clickable {  }) {
+            .clickable { onDismiss() }) {
         }
 
         if(request.transactionType == TransactionType.DEPOSIT) {
@@ -75,11 +75,13 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text("2MwS....6rJo",
-                        textAlign = TextAlign.Right,
-                        //modifier = Modifier.padding(horizontal = 24.dp),
-                        fontSize = 16.sp
-                    )
+                    request.depositAddress?.let {
+                        Text(
+                            it,
+                            textAlign = TextAlign.Right,
+                            fontSize = 16.sp
+                        )
+                    }
                 }
                 //Spacer(modifier = Modifier.weight(0.5f))
                 Row(modifier = Modifier
@@ -273,11 +275,13 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text("2MwS....6rJo",
-                        textAlign = TextAlign.Right,
-                        //modifier = Modifier.padding(horizontal = 24.dp),
-                        fontSize = 16.sp
-                    )
+                    request.depositAddress?.let {
+                        Text(
+                            it,
+                            textAlign = TextAlign.Right,
+                            fontSize = 16.sp
+                        )
+                    }
                 }
                 //Spacer(modifier = Modifier.weight(0.5f))
                 Row(modifier = Modifier

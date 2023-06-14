@@ -137,28 +137,34 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                     }
                     Spacer(Modifier.weight(1f))
                 }
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    itemsIndexed(requests) { index, request ->
-                        ClickableCard(
-                            request = request,
-                            onCardClicked = { selectedRequest ->
-                                // Show the selected request in the RequestOverlay
-                                overlayActive = true
-                                selectedOverlayRequest = selectedRequest
-                            }
-                        )
+
+                Box(modifier = Modifier) {
+                    LazyColumn(
+                        modifier = Modifier,
+
+                    ) {
+                        itemsIndexed(requests) { index, request ->
+                            ClickableCard(
+                                request = request,
+                                onCardClicked = { selectedRequest ->
+                                    // Show the selected request in the RequestOverlay
+                                    overlayActive = true
+                                    selectedOverlayRequest = selectedRequest
+                                }
+                            )
+                        }
                     }
                 }
+
+
+
 //                if (firstRequest != null) {
 //                    ClickableCard(onRowClicked = { overlayActive = true }, request = firstRequest)
 //                }
 //                if (secondRequest != null) {
 //                    ClickableCard(onRowClicked = { overlayActive = true }, request = secondRequest)
 //                }
-                Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 16.dp), color = colorResource(
+                Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 20.dp), color = colorResource(
                     id = R.color.gray_button_400
                 ))
                 ClickableRow(onRowClicked = { }, isDeposit = true, signedAuto = true, signedVote = true)

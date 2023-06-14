@@ -185,26 +185,6 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
     }
 }
 
-//@Composable
-//fun ClearButton(onClick: () -> Unit) {
-//    var rotated by remember { mutableStateOf(false) }
-//
-//    IconButton(
-//        onClick = {
-//            rotated = !rotated
-//            onClick()
-//        },
-//        modifier = Modifier.rotate(if (rotated) -90f else 0f)
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.chevlefticonss),
-//            contentDescription = "Restfully Placeholder Coach Image",
-//            modifier = Modifier.size(20.dp),
-//            contentScale = ContentScale.Fit
-//        )
-//    }
-//}
-
 @Composable
 fun ClickableRow(onRowClicked: () -> Unit, isDeposit: Boolean, signedAuto: Boolean, signedVote: Boolean) {
 
@@ -419,11 +399,11 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                     }
                                 }
                                 Spacer(Modifier.weight(1f))
-                                Text(text = "53% confirmed", modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus / request.targetConsensus * 100), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
                             }
                         }
                     }
-                    SigningProgressBar()
+                    SigningProgressBar2(request = request)
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier
                         .padding(vertical = 12.dp)
                         .padding(horizontal = 16.dp)) {
@@ -511,11 +491,11 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                     }
                                 }
                                 Spacer(Modifier.weight(1f))
-                                Text(text = "53% confirmed", modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                                Text(    text = String.format("%.2f%% confirmed", request.currentConsensus / request.targetConsensus * 100), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
                             }
                         }
                     }
-                    SigningProgressBar()
+                    SigningProgressBar2(request = request)
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier
                         .padding(vertical = 12.dp)
                         .padding(horizontal = 16.dp)) {
@@ -569,6 +549,29 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
 
 }
 
+@Composable
+fun SigningProgressBar2(request: Request) {
+    var signingProgress by remember { mutableStateOf(request.currentConsensus) }
+    val coroutineScope = rememberCoroutineScope()
+
+//    LaunchedEffect(Unit) {
+//        // Simulate signing progress
+//        coroutineScope.launch {
+//            for (progress in 0 until 100) {
+//                delay(1000) // Adjust the delay to match your actual signing process
+//                signingProgress = (progress + 1).toFloat()
+//            }
+//        }
+//    }
+
+    Column() {
+        LinearProgressIndicator(
+            progress = signingProgress / request.targetConsensus,
+            modifier = Modifier.fillMaxWidth(),
+            color = colorResource(id = R.color.sbtc_yellow_500)
+        )
+    }
+}
 
 @Composable
 fun SigningProgressBar() {

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun RequestOverlay(request: Request, onDismiss: () -> Unit){
+    print("currentConsensus %: " + request.currentConsensus)
     Box() {
         Box(modifier = Modifier
             .fillMaxSize()
@@ -103,7 +104,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text("0.18402042",
+                    Text(request.transactionAmount.toString(),
                         textAlign = TextAlign.Right,
                         //modifier = Modifier.padding(horizontal = 24.dp),
                         fontSize = 16.sp
@@ -123,7 +124,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                             .size(28.dp),
                         contentScale = ContentScale.Fit
                     )
-                    Text("Fees",
+                    Text(request.transactionFees.toString(),
                         textAlign = TextAlign.Left,
                         modifier = Modifier.padding(start = 8.dp),
                         fontSize = 16.sp,
@@ -160,7 +161,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text("42.53%",
+                    Text(request.currentConsensus.toString() + "%",
                         textAlign = TextAlign.Right,
                         //modifier = Modifier.padding(horizontal = 24.dp),
                         fontSize = 16.sp
@@ -190,7 +191,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                     )
 
                     Spacer(Modifier.weight(1f))
-                    Text("56 blocks",
+                    Text(request.heightExpiring.toString() + " height",
                         textAlign = TextAlign.Right,
                         //modifier = Modifier.padding(horizontal = 24.dp),
                         fontSize = 16.sp
@@ -303,7 +304,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text("0.18402042",
+                    Text(request.transactionAmount.toString(),
                         textAlign = TextAlign.Right,
                         //modifier = Modifier.padding(horizontal = 24.dp),
                         fontSize = 16.sp
@@ -330,7 +331,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text("0.000251",
+                    Text(request.transactionFees.toString(),
                         textAlign = TextAlign.Right,
                         fontSize = 16.sp
                     )
@@ -360,7 +361,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text("42.53%",
+                    Text(request.currentConsensus.toString() + "%",
                         textAlign = TextAlign.Right,
                         //modifier = Modifier.padding(horizontal = 24.dp),
                         fontSize = 16.sp
@@ -390,7 +391,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                     )
 
                     Spacer(Modifier.weight(1f))
-                    Text("56 blocks",
+                    Text(request.heightExpiring.toString() + " height",
                         textAlign = TextAlign.Right,
                         //modifier = Modifier.padding(horizontal = 24.dp),
                         fontSize = 16.sp

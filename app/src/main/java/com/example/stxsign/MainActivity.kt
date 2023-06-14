@@ -103,8 +103,8 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress1",
                 withdrawalAddress = "exampleWithdrawalAddress1",
                 depositAddress = "exampleDepositAddress1",
-                currentConsensus = 0.0f,
-                targetConsensus = 50.0f
+                currentConsensus = 34.54f,
+                targetConsensus = 70.0f
             ),
             Request(
                 txID = "exampleTxID2",
@@ -117,8 +117,8 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress2",
                 withdrawalAddress = "exampleWithdrawalAddress2",
                 depositAddress = "exampleDepositAddress2",
-                currentConsensus = 0.0f,
-                targetConsensus = 60.0f
+                currentConsensus = 22.75f,
+                targetConsensus = 70.0f
             ),
             Request(
                 txID = "exampleTxID3",
@@ -131,7 +131,7 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress3",
                 withdrawalAddress = "exampleWithdrawalAddress3",
                 depositAddress = "exampleDepositAddress3",
-                currentConsensus = 0.0f,
+                currentConsensus = 1.13f,
                 targetConsensus = 70.0f
             )
         )

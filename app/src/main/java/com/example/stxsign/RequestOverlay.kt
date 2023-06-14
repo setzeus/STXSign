@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RequestOverlay(isDeposit: Boolean){
+fun RequestOverlay(request: Request, onDismiss: () -> Unit){
     Box() {
         Box(modifier = Modifier
             .fillMaxSize()
@@ -31,7 +31,7 @@ fun RequestOverlay(isDeposit: Boolean){
             .clickable {  }) {
         }
 
-        if(isDeposit) {
+        if(request.transactionType == TransactionType.DEPOSIT) {
             Column(modifier = Modifier
                 //.fillMaxSize()
                 .padding(horizontal = 20.dp)

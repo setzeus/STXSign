@@ -8,6 +8,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 //import androidx.compose.foundation.layout.RowScopeInstance.weight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -57,15 +59,17 @@ import androidx.compose.runtime.getValue
 @Composable
 fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, currentRoute: String?, coreViewModel: CoreViewModel) {
 
-    val requests by remember(coreViewModel.requests.value) {
-        mutableStateOf<List<Request>>(emptyList())
-    }
+//    val requests by remember(coreViewModel.requests.value) {
+//        mutableStateOf<List<Request>>(emptyList())
+//    }
 
     // Access the first request
     println(coreViewModel.requests.value)
-    println(requests)
+    //println(requests)
     val firstRequest: Request? = coreViewModel.requests.value?.get(0)
     val secondRequest: Request? = coreViewModel.requests.value?.get(1)
+
+    val requests = coreViewModel.requests.value ?: emptyList()
 
 
     val requestsText = AnnotatedString.Builder().apply {
@@ -77,6 +81,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
     }.toAnnotatedString()
 
     var overlayActive by remember { mutableStateOf(false) }
+
+    var selectedOverlayRequest: Request? by remember { mutableStateOf(null) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -131,22 +137,42 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                     }
                     Spacer(Modifier.weight(1f))
                 }
-                if (firstRequest != null) {
-                    ClickableCard(onRowClicked = {}, isDeposit = true, request = firstRequest)
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    itemsIndexed(requests) { index, request ->
+                        ClickableCard(
+                            request = request,
+                            onCardClicked = { selectedRequest ->
+                                // Show the selected request in the RequestOverlay
+                                overlayActive = true
+                                selectedOverlayRequest = selectedRequest
+                            }
+                        )
+                    }
                 }
-                if (secondRequest != null) {
-                    ClickableCard(onRowClicked = {}, isDeposit = false, request = secondRequest)
-                }
+//                if (firstRequest != null) {
+//                    ClickableCard(onRowClicked = { overlayActive = true }, request = firstRequest)
+//                }
+//                if (secondRequest != null) {
+//                    ClickableCard(onRowClicked = { overlayActive = true }, request = secondRequest)
+//                }
                 Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 16.dp), color = colorResource(
                     id = R.color.gray_button_400
                 ))
-                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = true, signedAuto = true, signedVote = true)
-                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = true, signedAuto = true, signedVote = false)
-                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = false, signedAuto = false, signedVote = false)
-                ClickableRow(onRowClicked = { overlayActive = true }, isDeposit = false, signedAuto = true, signedVote = true)
+                ClickableRow(onRowClicked = { }, isDeposit = true, signedAuto = true, signedVote = true)
+                ClickableRow(onRowClicked = { }, isDeposit = true, signedAuto = true, signedVote = false)
+                ClickableRow(onRowClicked = { }, isDeposit = false, signedAuto = false, signedVote = false)
+                ClickableRow(onRowClicked = { }, isDeposit = false, signedAuto = true, signedVote = true)
             }
             if (overlayActive) {
-                RequestOverlay(isDeposit = false)
+                selectedOverlayRequest?.let {
+                    RequestOverlay(
+                        request = it,
+                        onDismiss = { overlayActive = false }
+                    )
+                }
             }
 
         }
@@ -331,14 +357,14 @@ fun ClickableRow(onRowClicked: () -> Unit, isDeposit: Boolean, signedAuto: Boole
 }
 
 @Composable
-fun ClickableCard(onRowClicked: () -> Unit, isDeposit: Boolean, request: Request) {
+fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
 
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = 6.dp)) {
         Row(modifier = Modifier
             .fillMaxWidth()
-            .clickable { onRowClicked() }
+            .clickable { onCardClicked(request) }
             .shadow(elevation = 4.dp)
             .background(
                 color = Color.White,
@@ -346,7 +372,7 @@ fun ClickableCard(onRowClicked: () -> Unit, isDeposit: Boolean, request: Request
             ),
             horizontalArrangement = Arrangement.Center
         ) {
-            if (isDeposit) {
+            if (request.transactionType == TransactionType.DEPOSIT) {
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     Row(modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -438,7 +464,7 @@ fun ClickableCard(onRowClicked: () -> Unit, isDeposit: Boolean, request: Request
                         Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
                     }
                 }
-            } else {
+            } else if (request.transactionType == TransactionType.WITHDRAWAL) {
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     Row(modifier = Modifier
                         .padding(horizontal = 16.dp)

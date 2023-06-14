@@ -29,7 +29,6 @@ fun RequestOverlay(isDeposit: Boolean){
             .fillMaxSize()
             .background(Color(0xAA424242))
             .clickable {  }) {
-
         }
 
         if(isDeposit) {

@@ -51,9 +51,22 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.example.stxsign.RequestOverlay
+import androidx.compose.runtime.getValue
+
 
 @Composable
-fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, currentRoute: String?) {
+fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, currentRoute: String?, coreViewModel: CoreViewModel) {
+
+    val requests by remember(coreViewModel.requests.value) {
+        mutableStateOf<List<Request>>(emptyList())
+    }
+
+    // Access the first request
+    println(coreViewModel.requests.value)
+    println(requests)
+    val firstRequest: Request? = coreViewModel.requests.value?.get(0)
+    val secondRequest: Request? = coreViewModel.requests.value?.get(1)
+
 
     val requestsText = AnnotatedString.Builder().apply {
         withStyle(
@@ -118,8 +131,12 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                     }
                     Spacer(Modifier.weight(1f))
                 }
-                ClickableCard(onRowClicked = {}, isDeposit = true)
-                ClickableCard(onRowClicked = {}, isDeposit = false)
+                if (firstRequest != null) {
+                    ClickableCard(onRowClicked = {}, isDeposit = true, request = firstRequest)
+                }
+                if (secondRequest != null) {
+                    ClickableCard(onRowClicked = {}, isDeposit = false, request = secondRequest)
+                }
                 Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 16.dp), color = colorResource(
                     id = R.color.gray_button_400
                 ))
@@ -314,7 +331,7 @@ fun ClickableRow(onRowClicked: () -> Unit, isDeposit: Boolean, signedAuto: Boole
 }
 
 @Composable
-fun ClickableCard(onRowClicked: () -> Unit, isDeposit: Boolean) {
+fun ClickableCard(onRowClicked: () -> Unit, isDeposit: Boolean, request: Request) {
 
     Row(modifier = Modifier
         .fillMaxWidth()

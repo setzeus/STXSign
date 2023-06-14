@@ -42,12 +42,104 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
+enum class TransactionType {
+    DEPOSIT, WITHDRAWAL, HANDOFF
+}
+
+enum class TransactionStatus {
+    ABSTAIN, APPROVE, REJECT, UNSIGNED
+}
+
+// Request Model
+data class Request(
+    val txID: String,
+    val transactionType: TransactionType,
+    var transactionStatus: TransactionStatus,
+    val heightMined: UInt,
+    val heightExpiring: UInt,
+    val transactionFees: Float,
+    val transactionAmount: Float,
+    val originatorAddress: String,
+    val withdrawalAddress: String? = null,
+    val depositAddress: String? = null,
+    var currentConsensus: Float,
+    val targetConsensus: Float
+) {
+    fun vote(increasesConsensusBy: Float): Float {
+        val newConsensus = currentConsensus + increasesConsensusBy
+        currentConsensus = newConsensus
+
+        if (newConsensus >= targetConsensus) {
+            transactionStatus = if (newConsensus > targetConsensus) {
+                TransactionStatus.APPROVE
+            } else {
+                TransactionStatus.REJECT
+            }
+        }
+
+        return currentConsensus
+    }
+}
 
 // core viewModel
 class CoreViewModel : ViewModel() {
+    private val _requests = MutableLiveData<List<Request>>()
+    val requests: LiveData<List<Request>> = _requests
 
+    init {
+        val randomRequests = listOf(
+            Request(
+                txID = "exampleTxID1",
+                transactionType = TransactionType.DEPOSIT,
+                transactionStatus = TransactionStatus.UNSIGNED,
+                heightMined = 100u,
+                heightExpiring = 200u,
+                transactionFees = 0.5f,
+                transactionAmount = 10.0f,
+                originatorAddress = "exampleOriginatorAddress1",
+                withdrawalAddress = "exampleWithdrawalAddress1",
+                depositAddress = "exampleDepositAddress1",
+                currentConsensus = 0.0f,
+                targetConsensus = 50.0f
+            ),
+            Request(
+                txID = "exampleTxID2",
+                transactionType = TransactionType.WITHDRAWAL,
+                transactionStatus = TransactionStatus.UNSIGNED,
+                heightMined = 150u,
+                heightExpiring = 250u,
+                transactionFees = 0.8f,
+                transactionAmount = 15.0f,
+                originatorAddress = "exampleOriginatorAddress2",
+                withdrawalAddress = "exampleWithdrawalAddress2",
+                depositAddress = "exampleDepositAddress2",
+                currentConsensus = 0.0f,
+                targetConsensus = 60.0f
+            ),
+            Request(
+                txID = "exampleTxID3",
+                transactionType = TransactionType.DEPOSIT,
+                transactionStatus = TransactionStatus.UNSIGNED,
+                heightMined = 200u,
+                heightExpiring = 300u,
+                transactionFees = 1.2f,
+                transactionAmount = 20.0f,
+                originatorAddress = "exampleOriginatorAddress3",
+                withdrawalAddress = "exampleWithdrawalAddress3",
+                depositAddress = "exampleDepositAddress3",
+                currentConsensus = 0.0f,
+                targetConsensus = 70.0f
+            )
+        )
+
+        _requests.value = randomRequests
+    }
 }
+
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -89,7 +181,7 @@ fun MainLayout(coreViewModel: CoreViewModel) {
                 StackScreen()
             }
             composable(Screen.Sign.title) {
-                SignScreen(navController = navController, navBackStackEntry, navBackStackEntry?.destination?.route)
+                SignScreen(navController = navController, navBackStackEntry, navBackStackEntry?.destination?.route, coreViewModel)
             }
         }
     }

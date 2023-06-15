@@ -197,7 +197,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontSize = 16.sp
                     )
                 }
-                SigningProgressBar()
+                SigningProgressBar(request = request)
                 // Bottom CTAs
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.padding(vertical = 12.dp).padding(horizontal = 16.dp)) {
                     Row(modifier = Modifier.weight(1f)) {
@@ -397,7 +397,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontSize = 16.sp
                     )
                 }
-                SigningProgressBar()
+                SigningProgressBar(request = request)
                 // Bottom CTAs
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.padding(vertical = 12.dp).padding(horizontal = 16.dp)) {
                     Row(modifier = Modifier.weight(1f)) {

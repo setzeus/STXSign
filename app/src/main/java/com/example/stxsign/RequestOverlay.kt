@@ -237,7 +237,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                             verticalAlignment = Alignment.CenterVertically
                         )
                         {
-                            Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            Text(text = "Approve", modifier = Modifier.fillMaxWidth().clickable { request.vote(10.1f) }, textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                         }
                     }
                     Row(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
@@ -448,12 +448,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                             verticalAlignment = Alignment.CenterVertically
                         )
                         {
-                            Text(text = "Approve", modifier = Modifier.fillMaxWidth().clickable {
-                                Log.d("test", "currentConsensus before firing: " + request.currentConsensus.toString())
-                                request.vote(10.1f)
-                                Log.d("test", "approve function was fired")
-                                Log.d("test", "currentConsensus after firing: " + request.currentConsensus.toString())
-                                                                                                }, textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            Text(text = "Approve", modifier = Modifier.fillMaxWidth().clickable { request.vote(10.1f) }, textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                         }
                     }
                     Row(modifier = Modifier.weight(1f).padding(start = 8.dp)) {

@@ -70,8 +70,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
     //val secondRequest: Request? = coreViewModel.requests.value?.get(1)
 
     val requests = coreViewModel.requests ?: emptyList()
-    var unsignedRequests = requests.filter { it.transactionStatus == TransactionStatus.UNSIGNED }
-    var signedRequests = requests.filter { it.transactionStatus != TransactionStatus.UNSIGNED}
+    var unsignedRequests = requests.filter { it.transactionStatus.value == TransactionStatus.UNSIGNED }
+    var signedRequests = requests.filter { it.transactionStatus.value != TransactionStatus.UNSIGNED}
 
     val requestsText = AnnotatedString.Builder().apply {
         withStyle(
@@ -174,10 +174,6 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                         )
                     }
                 }
-                //ClickableRow(onRowClicked = { }, isDeposit = true, signedAuto = true, signedVote = true)
-                //ClickableRow(onRowClicked = { }, isDeposit = true, signedAuto = true, signedVote = false)
-                //ClickableRow(onRowClicked = { }, isDeposit = false, signedAuto = false, signedVote = false)
-                //ClickableRow(onRowClicked = { }, isDeposit = false, signedAuto = true, signedVote = true)
             }
             if (overlayActive) {
                 selectedOverlayRequest?.let {
@@ -225,7 +221,7 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
                                 Text(text = "sBTC", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
                                 Spacer(Modifier.weight(1f))
-                                if (request.transactionStatus == TransactionStatus.APPROVE) {
+                                if (request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Image(
                                         painter = painterResource(id = R.drawable.greencheckss),
                                         contentDescription = "green check",
@@ -244,13 +240,13 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                         contentScale = ContentScale.Fit
                                     )
                                 }
-                                if (request.isAutosigned && request.transactionStatus == TransactionStatus.APPROVE) {
+                                if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
-                                } else if (!request.isAutosigned && request.transactionStatus == TransactionStatus.REJECT)  {
+                                } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.REJECT)  {
                                     Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
-                                } else if (!request.isAutosigned && request.transactionStatus == TransactionStatus.APPROVE) {
+                                } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
-                                } else if (request.isAutosigned && request.transactionStatus == TransactionStatus.APPROVE) {
+                                } else if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 }
                             }
@@ -292,7 +288,7 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
                                 Text(text = "Bitcoin", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
                                 Spacer(Modifier.weight(1f))
-                                if (request.transactionStatus == TransactionStatus.APPROVE) {
+                                if (request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Image(
                                         painter = painterResource(id = R.drawable.greencheckss),
                                         contentDescription = "green check",
@@ -311,13 +307,13 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                         contentScale = ContentScale.Fit
                                     )
                                 }
-                                if (request.isAutosigned && request.transactionStatus == TransactionStatus.APPROVE) {
+                                if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
-                                } else if (!request.isAutosigned && request.transactionStatus == TransactionStatus.REJECT)  {
+                                } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.REJECT)  {
                                     Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
-                                } else if (!request.isAutosigned && request.transactionStatus == TransactionStatus.APPROVE) {
+                                } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
-                                } else if (request.isAutosigned && request.transactionStatus == TransactionStatus.APPROVE) {
+                                } else if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 }
                             }
@@ -559,12 +555,6 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
 @Composable
 fun SigningProgressBar(request: Request) {
     var signingProgress by remember { mutableStateOf(request.currentConsensus) }
-
-//    DisposableEffect(request.currentConsensus) {
-//        signingProgress = request.currentConsensus / 100
-//
-//        onDispose { /* Cleanup code if needed */ }
-//    }
 
     Column() {
         LinearProgressIndicator(

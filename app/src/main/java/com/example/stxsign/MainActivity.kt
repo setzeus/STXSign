@@ -57,7 +57,7 @@ enum class TransactionStatus {
 data class Request(
     val txID: String,
     val transactionType: TransactionType,
-    var transactionStatus: TransactionStatus,
+    var transactionStatus: MutableState<TransactionStatus>,
     val heightMined: UInt,
     val heightExpiring: UInt,
     val isAutosigned: Boolean,
@@ -73,12 +73,10 @@ data class Request(
         val newConsensus = currentConsensus.value + increasesConsensusBy
         currentConsensus.value = newConsensus
 
-        if (newConsensus >= targetConsensus) {
-            transactionStatus = if (newConsensus > targetConsensus) {
-                TransactionStatus.APPROVE
-            } else {
-                TransactionStatus.REJECT
-            }
+        if (increasesConsensusBy > 0) {
+            transactionStatus.value = TransactionStatus.APPROVE
+        } else {
+            transactionStatus.value = TransactionStatus.REJECT
         }
 
     }
@@ -96,12 +94,19 @@ class CoreViewModel : ViewModel() {
     val currentConsensusState4 = mutableStateOf(2.75f)
     val currentConsensusState5 = mutableStateOf(70.23f)
 
+    val transactionStatusState0 = mutableStateOf(TransactionStatus.UNSIGNED)
+    val transactionStatusState1 = mutableStateOf(TransactionStatus.UNSIGNED)
+    val transactionStatusState2 = mutableStateOf(TransactionStatus.APPROVE)
+    val transactionStatusState3 = mutableStateOf(TransactionStatus.REJECT)
+    val transactionStatusState4 = mutableStateOf(TransactionStatus.APPROVE)
+    val transactionStatusState5 = mutableStateOf(TransactionStatus.REJECT)
+
     init {
         val randomRequests = listOf(
             Request(
                 txID = "exampleTxID1",
                 transactionType = TransactionType.DEPOSIT,
-                transactionStatus = TransactionStatus.UNSIGNED,
+                transactionStatus = transactionStatusState0,
                 heightMined = 100u,
                 heightExpiring = 200u,
                 isAutosigned = false,
@@ -116,7 +121,7 @@ class CoreViewModel : ViewModel() {
             Request(
                 txID = "exampleTxID2",
                 transactionType = TransactionType.WITHDRAWAL,
-                transactionStatus = TransactionStatus.UNSIGNED,
+                transactionStatus = transactionStatusState1,
                 heightMined = 150u,
                 heightExpiring = 250u,
                 isAutosigned = false,
@@ -131,7 +136,7 @@ class CoreViewModel : ViewModel() {
             Request(
                 txID = "exampleTxID3",
                 transactionType = TransactionType.DEPOSIT,
-                transactionStatus = TransactionStatus.APPROVE,
+                transactionStatus = transactionStatusState2,
                 heightMined = 200u,
                 heightExpiring = 300u,
                 isAutosigned = false,
@@ -146,7 +151,7 @@ class CoreViewModel : ViewModel() {
             Request(
                 txID = "exampleTxID4",
                 transactionType = TransactionType.WITHDRAWAL,
-                transactionStatus = TransactionStatus.APPROVE,
+                transactionStatus = transactionStatusState3,
                 heightMined = 100u,
                 heightExpiring = 200u,
                 isAutosigned = false,
@@ -161,7 +166,7 @@ class CoreViewModel : ViewModel() {
             Request(
                 txID = "exampleTxID5",
                 transactionType = TransactionType.WITHDRAWAL,
-                transactionStatus = TransactionStatus.REJECT,
+                transactionStatus = transactionStatusState4,
                 heightMined = 150u,
                 heightExpiring = 250u,
                 isAutosigned = false,
@@ -176,7 +181,7 @@ class CoreViewModel : ViewModel() {
             Request(
                 txID = "exampleTxID6",
                 transactionType = TransactionType.DEPOSIT,
-                transactionStatus = TransactionStatus.APPROVE,
+                transactionStatus = transactionStatusState5,
                 heightMined = 200u,
                 heightExpiring = 300u,
                 isAutosigned = false,

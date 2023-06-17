@@ -253,7 +253,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         )
 
                         {
-                            Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            Text(text = "Deny", modifier = Modifier.fillMaxWidth().clickable { request.vote(-10.1f) }, textAlign = TextAlign.Center, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -464,7 +464,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         )
 
                         {
-                            Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            Text(text = "Deny", modifier = Modifier.fillMaxWidth().clickable { request.vote(-10.1f) }, textAlign = TextAlign.Center, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                         }
                     }
                 }

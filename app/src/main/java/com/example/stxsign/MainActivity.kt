@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.runtime.getValue
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
@@ -35,7 +34,7 @@ import androidx.compose.material3.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -67,12 +66,12 @@ data class Request(
     val originatorAddress: String,
     val withdrawalAddress: String? = null,
     val depositAddress: String? = null,
-    var currentConsensus: Float,
+    var currentConsensus: MutableState<Float>,
     val targetConsensus: Float
 ) {
-    fun vote(increasesConsensusBy: Float): Float {
-        val newConsensus = currentConsensus + increasesConsensusBy
-        currentConsensus = newConsensus
+    fun vote(increasesConsensusBy: Float) {
+        val newConsensus = currentConsensus.value + increasesConsensusBy
+        currentConsensus.value = newConsensus
 
         if (newConsensus >= targetConsensus) {
             transactionStatus = if (newConsensus > targetConsensus) {
@@ -82,14 +81,20 @@ data class Request(
             }
         }
 
-        return currentConsensus
     }
 }
 
 // core viewModel
 class CoreViewModel : ViewModel() {
-    private val _requests = MutableLiveData<List<Request>>()
-    val requests: LiveData<List<Request>> = _requests
+    private val _requests = mutableStateListOf<Request>()
+    val requests: List<Request> = _requests
+
+    val currentConsensusState0 = mutableStateOf(34.54f)
+    val currentConsensusState1 = mutableStateOf(22.75f)
+    val currentConsensusState2 = mutableStateOf(1.13f)
+    val currentConsensusState3 = mutableStateOf(63.50f)
+    val currentConsensusState4 = mutableStateOf(2.75f)
+    val currentConsensusState5 = mutableStateOf(70.23f)
 
     init {
         val randomRequests = listOf(
@@ -105,7 +110,7 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress1",
                 withdrawalAddress = "exampleWithdrawalAddress1",
                 depositAddress = "exampleDepositAddress1",
-                currentConsensus = 34.54f,
+                currentConsensus = currentConsensusState0,
                 targetConsensus = 70.0f
             ),
             Request(
@@ -120,7 +125,7 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress2",
                 withdrawalAddress = "exampleWithdrawalAddress2",
                 depositAddress = "exampleDepositAddress2",
-                currentConsensus = 22.75f,
+                currentConsensus = currentConsensusState1,
                 targetConsensus = 70.0f
             ),
             Request(
@@ -135,7 +140,7 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress3",
                 withdrawalAddress = "exampleWithdrawalAddress3",
                 depositAddress = "exampleDepositAddress3",
-                currentConsensus = 1.13f,
+                currentConsensus = currentConsensusState2,
                 targetConsensus = 70.0f
             ),
             Request(
@@ -150,7 +155,7 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress1",
                 withdrawalAddress = "exampleWithdrawalAddress1",
                 depositAddress = "exampleDepositAddress1",
-                currentConsensus = 63.50f,
+                currentConsensus = currentConsensusState3,
                 targetConsensus = 70.0f
             ),
             Request(
@@ -165,7 +170,7 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress2",
                 withdrawalAddress = "exampleWithdrawalAddress2",
                 depositAddress = "exampleDepositAddress2",
-                currentConsensus = 2.75f,
+                currentConsensus = currentConsensusState4,
                 targetConsensus = 70.0f
             ),
             Request(
@@ -180,12 +185,12 @@ class CoreViewModel : ViewModel() {
                 originatorAddress = "exampleOriginatorAddress4",
                 withdrawalAddress = "exampleWithdrawalAddress4",
                 depositAddress = "exampleDepositAddress3",
-                currentConsensus = 70.23f,
+                currentConsensus = currentConsensusState5,
                 targetConsensus = 70.0f
             )
         )
 
-        _requests.value = randomRequests
+        _requests.addAll(randomRequests)
     }
 }
 

@@ -1,15 +1,16 @@
 package com.example.stxsign
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import android.util.Log
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,17 +20,32 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun RequestOverlay(request: Request, onDismiss: () -> Unit){
-    print("currentConsensus %: " + request.currentConsensus)
+
+    val currentConsensusState = remember { mutableStateOf(request.currentConsensus) }
+
+    val signingProgress = request.currentConsensus
+    val mutableRequest = remember { mutableStateOf(request) }
+
+    DisposableEffect(request.currentConsensus) {
+        onDispose {
+            // Cleanup code if needed
+        }
+    }
+
+
+    //print("currentConsensus %: " + request.currentConsensus)
     Box() {
         Box(modifier = Modifier
             .fillMaxSize()
             .background(Color(0xAA424242))
-            .clickable { onDismiss() }) {
+            .clickable{print(""); true},
+            ) {
         }
 
         if(request.transactionType == TransactionType.DEPOSIT) {
@@ -43,7 +59,16 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                 .background(Color.White)
                 .align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Deposit Request", fontSize = 36.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 32.dp))
+                Row(modifier = Modifier.clickable { onDismiss(); true }.padding(top = 32.dp), verticalAlignment = Alignment.CenterVertically){
+                    Image(
+                        painter = painterResource(id = R.drawable.canceliconss),
+                        contentDescription = "Wallet Icon",
+                        modifier = Modifier
+                            .size(28.dp).padding(end = 8.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    Text(text = "Deposit", fontSize = 36.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 4.dp))
+                }
                 Text("Your signature vote is manually requested for this deposit request.",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 24.dp), fontSize = 16.sp)
@@ -80,7 +105,9 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         Text(
                             it,
                             textAlign = TextAlign.Right,
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -137,9 +164,9 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                     )
                 }
                 //Spacer(modifier = Modifier.weight(0.5f))
-                Divider(modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .padding(horizontal = 48.dp))
+//                Divider(modifier = Modifier
+//                    .padding(vertical = 8.dp)
+//                    .padding(horizontal = 48.dp))
                 //Spacer(modifier = Modifier.weight(0.5f))
                 Row(modifier = Modifier
                     .fillMaxWidth()
@@ -161,7 +188,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text(request.currentConsensus.toString() + "%",
+                    Text((request.currentConsensus.value).toString() + "%",
                         textAlign = TextAlign.Right,
                         //modifier = Modifier.padding(horizontal = 24.dp),
                         fontSize = 16.sp
@@ -230,7 +257,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         }
                     }
                 }
-                Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Medium)
+                Text(text = "Abstain", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Medium)
             }
         } else {
             Column(modifier = Modifier
@@ -243,7 +270,16 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                 .background(Color.White)
                 .align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Withdraw Request", fontSize = 36.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 32.dp))
+                Row(modifier = Modifier.clickable { onDismiss(); true }.padding(top = 32.dp), verticalAlignment = Alignment.CenterVertically){
+                    Image(
+                        painter = painterResource(id = R.drawable.canceliconss),
+                        contentDescription = "Wallet Icon",
+                        modifier = Modifier
+                            .size(28.dp).padding(end = 8.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    Text(text = "Withdraw", fontSize = 36.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 4.dp))
+                }
                 Text("Your signature vote is manually requested for this withdraw request.",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 24.dp), fontSize = 16.sp)
@@ -280,7 +316,9 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         Text(
                             it,
                             textAlign = TextAlign.Right,
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -337,9 +375,9 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                     )
                 }
                 //Spacer(modifier = Modifier.weight(0.5f))
-                Divider(modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .padding(horizontal = 48.dp))
+//                Divider(modifier = Modifier
+//                    .padding(vertical = 8.dp)
+//                    .padding(horizontal = 48.dp))
                 //Spacer(modifier = Modifier.weight(0.5f))
                 Row(modifier = Modifier
                     .fillMaxWidth()
@@ -361,7 +399,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Text(request.currentConsensus.toString() + "%",
+                    Text((request.currentConsensus.value).toString() + "%",
                         textAlign = TextAlign.Right,
                         //modifier = Modifier.padding(horizontal = 24.dp),
                         fontSize = 16.sp
@@ -373,7 +411,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                     .fillMaxWidth()
                     .height(48.dp)
                     .padding(horizontal = 48.dp)
-                    .padding(bottom = 12.dp),
+                    .padding(bottom = 24.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -397,9 +435,9 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         fontSize = 16.sp
                     )
                 }
-                SigningProgressBar(request = request)
+                SigningProgressBar2(request = mutableRequest)
                 // Bottom CTAs
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.padding(vertical = 12.dp).padding(horizontal = 16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.padding(top = 24.dp).padding(bottom = 12.dp).padding(horizontal = 16.dp)) {
                     Row(modifier = Modifier.weight(1f)) {
                         Row(modifier = Modifier
                             .background(
@@ -410,7 +448,12 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                             verticalAlignment = Alignment.CenterVertically
                         )
                         {
-                            Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            Text(text = "Approve", modifier = Modifier.fillMaxWidth().clickable {
+                                Log.d("test", "currentConsensus before firing: " + request.currentConsensus.toString())
+                                request.vote(10.1f)
+                                Log.d("test", "approve function was fired")
+                                Log.d("test", "currentConsensus after firing: " + request.currentConsensus.toString())
+                                                                                                }, textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                         }
                     }
                     Row(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
@@ -430,7 +473,7 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                         }
                     }
                 }
-                Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Medium)
+                Text(text = "Abstain", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Medium)
             }
         }
 

@@ -64,12 +64,12 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 //    }
 
     // Access the first request
-    println(coreViewModel.requests.value)
+    //println(coreViewModel.requests.value)
     //println(requests)
-    val firstRequest: Request? = coreViewModel.requests.value?.get(0)
-    val secondRequest: Request? = coreViewModel.requests.value?.get(1)
+    //val firstRequest: Request? = coreViewModel.requests.value?.get(0)
+    //val secondRequest: Request? = coreViewModel.requests.value?.get(1)
 
-    val requests = coreViewModel.requests.value ?: emptyList()
+    val requests = coreViewModel.requests ?: emptyList()
     var unsignedRequests = requests.filter { it.transactionStatus == TransactionStatus.UNSIGNED }
     var signedRequests = requests.filter { it.transactionStatus != TransactionStatus.UNSIGNED}
 
@@ -269,7 +269,7 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                     }
                                 }
                                 Spacer(Modifier.weight(1f))
-                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus.value), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
                             }
                         }
                     }
@@ -336,7 +336,7 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                     }
                                 }
                                 Spacer(Modifier.weight(1f))
-                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus.value), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
                             }
                         }
                     }
@@ -406,7 +406,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                     }
                                 }
                                 Spacer(Modifier.weight(1f))
-                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus.value), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
                             }
                         }
                     }
@@ -498,7 +498,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                     }
                                 }
                                 Spacer(Modifier.weight(1f))
-                                Text(    text = String.format("%.2f%% confirmed", request.currentConsensus), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                                Text(    text = String.format("%.2f%% confirmed", request.currentConsensus.value), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
                             }
                         }
                     }
@@ -559,21 +559,28 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
 @Composable
 fun SigningProgressBar(request: Request) {
     var signingProgress by remember { mutableStateOf(request.currentConsensus) }
-    val coroutineScope = rememberCoroutineScope()
 
-//    LaunchedEffect(Unit) {
-//        // Simulate signing progress
-//        coroutineScope.launch {
-//            for (progress in 0 until 100) {
-//                delay(1000) // Adjust the delay to match your actual signing process
-//                signingProgress = (progress + 1).toFloat()
-//            }
-//        }
+//    DisposableEffect(request.currentConsensus) {
+//        signingProgress = request.currentConsensus / 100
+//
+//        onDispose { /* Cleanup code if needed */ }
 //    }
 
     Column() {
         LinearProgressIndicator(
-            progress = signingProgress / 100,
+            progress = signingProgress.value/100,
+            modifier = Modifier.fillMaxWidth(),
+            color = colorResource(id = R.color.sbtc_yellow_500)
+        )
+    }
+}
+
+@Composable
+fun SigningProgressBar2(request: MutableState<Request>) {
+
+    Column {
+        LinearProgressIndicator(
+            progress = request.value.currentConsensus.value / 100,
             modifier = Modifier.fillMaxWidth(),
             color = colorResource(id = R.color.sbtc_yellow_500)
         )

@@ -394,11 +394,6 @@ fun RequestOverlay(request: Request, onDismiss: () -> Unit){
                             fontSize = 16.sp
                         )
                     }
-                    //Spacer(modifier = Modifier.weight(0.5f))
-//                Divider(modifier = Modifier
-//                    .padding(vertical = 8.dp)
-//                    .padding(horizontal = 48.dp))
-                    //Spacer(modifier = Modifier.weight(0.5f))
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)

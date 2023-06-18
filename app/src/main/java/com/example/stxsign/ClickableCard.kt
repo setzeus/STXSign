@@ -58,6 +58,8 @@ import androidx.compose.runtime.getValue
 @Composable
 fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
 
+    val mutableRequest = remember { mutableStateOf(request) }
+
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = 6.dp)) {
@@ -137,7 +139,8 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                 //.padding(horizontal = 12.dp, vertical = 4.dp)
                             )
                             {
-                                Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                                Text(text = "Approve", modifier = Modifier.fillMaxWidth()
+                                    .clickable { request.vote(10.1f) }, textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                             }
                         }
                         Row(modifier = Modifier
@@ -161,7 +164,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                             )
 
                             {
-                                Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                                Text(text = "Deny", modifier = Modifier.fillMaxWidth().clickable { request.vote(-10.1f) }, textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                             }
                         }
                         Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
@@ -233,7 +236,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                 //.padding(horizontal = 12.dp, vertical = 4.dp)
                             )
                             {
-                                Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                                Text(text = "Approve", modifier = Modifier.fillMaxWidth().clickable { request.vote(10.1f) }, textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                             }
                         }
                         Row(modifier = Modifier
@@ -257,7 +260,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                             )
 
                             {
-                                Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                                Text(text = "Deny", modifier = Modifier.fillMaxWidth().clickable { request.vote(-10.1f) }, textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                             }
                         }
                         Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)

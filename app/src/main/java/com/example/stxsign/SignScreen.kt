@@ -89,71 +89,73 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
             Column( modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .padding(top = 16.dp)) {
-                Row() {
-                    Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Black, modifier = Modifier, color = colorResource(
-                        id = R.color.gray_button_400
-                    ))
-                    Row(modifier = Modifier
-                        .padding(start = 8.dp)
-                        .height(40.dp), verticalAlignment = Alignment.CenterVertically) {
+                if (unsignedRequests.size != 0) {
+                    Row() {
+                        Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Black, modifier = Modifier, color = colorResource(
+                            id = R.color.gray_button_400
+                        ))
                         Row(modifier = Modifier
-                            .background(
-                                color = colorResource(id = R.color.gray_button_400),
-                                shape = RoundedCornerShape(16.dp)
-                            )
-                            .padding(horizontal = 12.dp, vertical = 4.dp))
-                        {
-                            Text(text = "2", color = Color.White, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
+                            .padding(start = 8.dp)
+                            .height(40.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.gray_button_400),
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .padding(horizontal = 12.dp, vertical = 4.dp))
+                            {
+                                Text(text = unsignedRequests.size.toString(), color = Color.White, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
+                            }
                         }
                     }
-                }
-                Row(modifier = Modifier) {
-                    Text("sort by", fontWeight = FontWeight.Light, fontSize = 16.sp, color = colorResource(
-                        id = R.color.gray_button_400
-                    ))
-                    Text(" time to expire", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = colorResource(
-                        id = R.color.gray_button_400
-                    ))
-                    Box(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .background(
-                                color = colorResource(id = R.color.offwhite_100),
-                                shape = CircleShape
-                            )
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.chevtopiconss),
-                            contentDescription = "Restfully Placeholder Coach Image",
+                    Row(modifier = Modifier) {
+                        Text("sort by", fontWeight = FontWeight.Light, fontSize = 16.sp, color = colorResource(
+                            id = R.color.gray_button_400
+                        ))
+                        Text(" time to expire", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = colorResource(
+                            id = R.color.gray_button_400
+                        ))
+                        Box(
                             modifier = Modifier
-                                .size(16.dp)
-                                .align(Alignment.Center)
-                                .rotate(180f),
-                            contentScale = ContentScale.Fit
-                        )
-                    }
-                    Spacer(Modifier.weight(1f))
-                }
-
-                Box(modifier = Modifier) {
-                    LazyColumn(
-                        modifier = Modifier,
-
-                    ) {
-                        itemsIndexed(unsignedRequests) { index, request ->
-                            ClickableCard(
-                                request = request,
-                                onCardClicked = { selectedRequest ->
-                                    // Show the selected request in the RequestOverlay
-                                    overlayActive = true
-                                    selectedOverlayRequest = selectedRequest
-                                }
+                                .size(32.dp)
+                                .background(
+                                    color = colorResource(id = R.color.offwhite_100),
+                                    shape = CircleShape
+                                )
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.chevtopiconss),
+                                contentDescription = "Restfully Placeholder Coach Image",
+                                modifier = Modifier
+                                    .size(16.dp)
+                                    .align(Alignment.Center)
+                                    .rotate(180f),
+                                contentScale = ContentScale.Fit
                             )
+                        }
+                        Spacer(Modifier.weight(1f))
+                    }
+
+                    Box(modifier = Modifier.padding(bottom = 20.dp)) {
+                        LazyColumn(
+                            modifier = Modifier,
+
+                            ) {
+                            itemsIndexed(unsignedRequests) { index, request ->
+                                ClickableCard(
+                                    request = request,
+                                    onCardClicked = { selectedRequest ->
+                                        // Show the selected request in the RequestOverlay
+                                        overlayActive = true
+                                        selectedOverlayRequest = selectedRequest
+                                    }
+                                )
+                            }
                         }
                     }
                 }
 
-                Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 20.dp), color = colorResource(id = R.color.gray_button_400))
+                Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier, color = colorResource(id = R.color.gray_button_400))
 
                 LazyColumn() {
                     itemsIndexed(signedRequests) { index, request ->
@@ -183,6 +185,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 
 @Composable
 fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
+
+    //val currentConsensusState = remember { mutableStateOf(request.currentConsensus) }
 
     Row(modifier = Modifier
         .fillMaxWidth()

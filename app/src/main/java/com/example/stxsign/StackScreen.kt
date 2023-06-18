@@ -4,8 +4,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.ui.Alignment
@@ -23,65 +26,154 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun StackScreen(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, currentRoute: String?, coreViewModel: CoreViewModel) {
 
-    var privateHashedKey by remember { mutableStateOf("Hello") }
-    var publicSigningKey by remember { mutableStateOf("Hello") }
-    var currentNetwork by remember { mutableStateOf("Hello") }
+    var privateHashedKey by remember { mutableStateOf("************************************************************") }
+    var publicSigningKey by remember { mutableStateOf("0377c011d562bb0203bf5adbd1c9325bbf19d7085fe80b23d30bf9f390b0fc32d8") }
+    var currentNetwork by remember { mutableStateOf("Mainnet") }
+
+    var hasChanges by remember { mutableStateOf(false) }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         //color = MaterialTheme.colors.background
     ) {
-        Box(modifier = Modifier.fillMaxSize().paint(
-            painterResource(id = R.drawable.signviewbg),
-            contentScale = ContentScale.FillBounds,
-            alpha = 0.5f
-        )) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .paint(
+                painterResource(id = R.drawable.signviewbg),
+                contentScale = ContentScale.FillBounds,
+                alpha = 0.5f
+            )) {
             Column(modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .padding(top = 16.dp),
+                .padding(horizontal = 12.dp),
                 verticalArrangement = Arrangement.Top,
             ) {
-                Text(text = "Basics", fontSize = 24.sp, fontWeight = FontWeight.Black, modifier = Modifier)
-                Text(text = "This first batch of settings are related to the signer & connected btc/stx node.", fontSize = 16.sp, fontWeight = FontWeight.Light, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp))
+
+                if (hasChanges) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier
+                        .padding(bottom = 12.dp)
+                        .padding(top = 24.dp)) {
+                        Row(modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 8.dp)) {
+                            Row(modifier = Modifier
+                                .border(
+                                    width = 1.dp,
+                                    color = colorResource(id = R.color.gray_button_400),
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .background(
+                                    color = Color.White,
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                                .padding(vertical = 6.dp)
+                                .fillMaxWidth(),
+                                //.width(112.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                                //.padding(horizontal = 12.dp, vertical = 4.dp)
+                            )
+
+                            {
+                                Text(text = "Undo", modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { }, textAlign = TextAlign.Center, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                        Row(modifier = Modifier.weight(1f)) {
+                            Row(modifier = Modifier
+                                .background(
+                                    color = colorResource(id = R.color.gray_button_400),
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                                .padding(vertical = 6.dp)
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            )
+                            {
+                                Text(text = "Save", modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { }, textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
+                }
+
+                if (hasChanges) {
+                    Text(text = "Basics", fontSize = 24.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(top = 4.dp))
+                } else {
+                    Text(text = "Basics", fontSize = 24.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(top = 20.dp))
+                }
+
+                Text(text = "This first batch of settings are related to the signer & connected btc/stx node.", fontSize = 16.sp, fontWeight = FontWeight.Light, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp))
                 OutlinedTextField(
                     value = privateHashedKey,
-                    onValueChange = { privateHashedKey = it },
+                    onValueChange = {
+                        privateHashedKey = it
+                        hasChanges = true
+                                    },
                     label = { Text("Private Hashed Key") },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                        }
+                    )
                 )
                 OutlinedTextField(
                     value = publicSigningKey,
-                    onValueChange = { publicSigningKey = it },
+                    onValueChange = { publicSigningKey = it
+                        hasChanges = true},
                     label = { Text("Public Signing Key") },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp)
                 )
                 OutlinedTextField(
                     value = currentNetwork,
-                    onValueChange = { currentNetwork = it },
+                    onValueChange = { currentNetwork = it
+                        hasChanges = true},
                     label = { Text("Current Network") },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp)
                 )
                 Text(text = "Approval Settings", fontSize = 24.sp, fontWeight = FontWeight.Black, modifier = Modifier)
-                Text(text = "This second batch of settings configure what transactions (if any), to autosign.", fontSize = 16.sp, fontWeight = FontWeight.Light, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp))
+                Text(text = "This second batch of settings configure what transactions (if any), to autosign.", fontSize = 16.sp, fontWeight = FontWeight.Light, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp))
                 // Default for approve all
                 // Below will be a ranged slider for min and/or max
                 OutlinedTextField(
                     value = currentNetwork,
                     onValueChange = { currentNetwork = it },
                     label = { Text("Transaction Sizes") },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp)
                 )
                 Text(text = "Demo Settings", fontSize = 24.sp, fontWeight = FontWeight.Black, modifier = Modifier)
                 // On / off

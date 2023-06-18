@@ -16,6 +16,8 @@
     <color name="sbtc_yellow_200">#AAF1BA73</color>
     <color name="sbtc_yellow_500">#FFF1BA73</color>
     <color name="navClick_orange_100">#CCF4BD62</color>
+    <color name="handoff_orange_200">#FFF4BD62</color>
+    <color name="handoff_orange_800">#FFB27A1D</color>
     <color name="green_tag_500">#FF7CDF17</color>
     <color name="green_text_900">#FF366A00</color>
 

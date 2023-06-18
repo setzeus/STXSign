@@ -29,6 +29,7 @@ import bottomNavigationItems
 import STXSignBottomNavigation
 import Screen
 import android.app.Activity
+import android.util.Log
 import android.view.View
 import androidx.compose.material3.*
 import androidx.compose.ui.platform.LocalContext
@@ -44,7 +45,10 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
+import kotlinx.coroutines.delay
+import java.util.*
+import kotlin.random.Random.Default.nextBoolean
+import kotlin.random.Random
 enum class TransactionType {
     DEPOSIT, WITHDRAWAL, HANDOFF
 }
@@ -86,119 +90,41 @@ data class Request(
 
 // core viewModel
 class CoreViewModel : ViewModel() {
-    private val _requests = mutableStateListOf<Request>()
-    val requests: List<Request> = _requests
-
-    val currentConsensusState0 = mutableStateOf(34.54f)
-    val currentConsensusState1 = mutableStateOf(22.75f)
-    val currentConsensusState2 = mutableStateOf(1.13f)
-    val currentConsensusState3 = mutableStateOf(63.50f)
-    val currentConsensusState4 = mutableStateOf(2.75f)
-    val currentConsensusState5 = mutableStateOf(70.23f)
-
-    val transactionStatusState0 = mutableStateOf(TransactionStatus.UNSIGNED)
-    val transactionStatusState1 = mutableStateOf(TransactionStatus.UNSIGNED)
-    val transactionStatusState2 = mutableStateOf(TransactionStatus.APPROVE)
-    val transactionStatusState3 = mutableStateOf(TransactionStatus.REJECT)
-    val transactionStatusState4 = mutableStateOf(TransactionStatus.APPROVE)
-    val transactionStatusState5 = mutableStateOf(TransactionStatus.REJECT)
+    private val _requests = mutableStateOf<List<Request>>(emptyList())
+    val requests: List<Request> get() = _requests.value
 
     init {
-        val randomRequests = listOf(
-            Request(
-                txID = "exampleTxID1",
-                transactionType = TransactionType.DEPOSIT,
-                transactionStatus = transactionStatusState0,
+        generateRandomRequests()
+    }
+
+    private fun generateRandomRequests() {
+        val randomRequestCount = (4..10).random()
+        val randomRequests = List(randomRequestCount) {
+            val currentConsensus = mutableStateOf((0..100).random().toFloat())
+            val transactionStatus = mutableStateOf(TransactionStatus.values().random())
+            val transactionType = TransactionType.values().random()
+            val isAutosigned = Random.nextBoolean()
+            val request = Request(
+                txID = "exampleTxID$it",
+                transactionType = transactionType,
+                transactionStatus = transactionStatus,
                 heightMined = 100u,
                 heightExpiring = 200u,
-                isAutosigned = false,
+                isAutosigned = isAutosigned,
                 transactionFees = 0.5f,
                 transactionAmount = 10.0f,
-                originatorAddress = "exampleOriginatorAddress1",
-                withdrawalAddress = "exampleWithdrawalAddress1",
-                depositAddress = "exampleDepositAddress1",
-                currentConsensus = currentConsensusState0,
-                targetConsensus = 70.0f
-            ),
-            Request(
-                txID = "exampleTxID2",
-                transactionType = TransactionType.WITHDRAWAL,
-                transactionStatus = transactionStatusState1,
-                heightMined = 150u,
-                heightExpiring = 250u,
-                isAutosigned = false,
-                transactionFees = 0.8f,
-                transactionAmount = 15.0f,
-                originatorAddress = "exampleOriginatorAddress2",
-                withdrawalAddress = "exampleWithdrawalAddress2",
-                depositAddress = "exampleDepositAddress2",
-                currentConsensus = currentConsensusState1,
-                targetConsensus = 70.0f
-            ),
-            Request(
-                txID = "exampleTxID3",
-                transactionType = TransactionType.DEPOSIT,
-                transactionStatus = transactionStatusState2,
-                heightMined = 200u,
-                heightExpiring = 300u,
-                isAutosigned = false,
-                transactionFees = 1.2f,
-                transactionAmount = 20.0f,
-                originatorAddress = "exampleOriginatorAddress3",
-                withdrawalAddress = "exampleWithdrawalAddress3",
-                depositAddress = "exampleDepositAddress3",
-                currentConsensus = currentConsensusState2,
-                targetConsensus = 70.0f
-            ),
-            Request(
-                txID = "exampleTxID4",
-                transactionType = TransactionType.WITHDRAWAL,
-                transactionStatus = transactionStatusState3,
-                heightMined = 100u,
-                heightExpiring = 200u,
-                isAutosigned = false,
-                transactionFees = 0.5f,
-                transactionAmount = 10.0f,
-                originatorAddress = "exampleOriginatorAddress1",
-                withdrawalAddress = "exampleWithdrawalAddress1",
-                depositAddress = "exampleDepositAddress1",
-                currentConsensus = currentConsensusState3,
-                targetConsensus = 70.0f
-            ),
-            Request(
-                txID = "exampleTxID5",
-                transactionType = TransactionType.WITHDRAWAL,
-                transactionStatus = transactionStatusState4,
-                heightMined = 150u,
-                heightExpiring = 250u,
-                isAutosigned = false,
-                transactionFees = 0.8f,
-                transactionAmount = 15.0f,
-                originatorAddress = "exampleOriginatorAddress2",
-                withdrawalAddress = "exampleWithdrawalAddress2",
-                depositAddress = "exampleDepositAddress2",
-                currentConsensus = currentConsensusState4,
-                targetConsensus = 70.0f
-            ),
-            Request(
-                txID = "exampleTxID6",
-                transactionType = TransactionType.DEPOSIT,
-                transactionStatus = transactionStatusState5,
-                heightMined = 200u,
-                heightExpiring = 300u,
-                isAutosigned = false,
-                transactionFees = 1.2f,
-                transactionAmount = 20.0f,
-                originatorAddress = "exampleOriginatorAddress4",
-                withdrawalAddress = "exampleWithdrawalAddress4",
-                depositAddress = "exampleDepositAddress3",
-                currentConsensus = currentConsensusState5,
+                originatorAddress = "exampleOriginatorAddress$it",
+                withdrawalAddress = "exampleWithdrawalAddress$it",
+                depositAddress = "exampleDepositAddress$it",
+                currentConsensus = currentConsensus,
                 targetConsensus = 70.0f
             )
-        )
+            request
+        }
 
-        _requests.addAll(randomRequests)
+        _requests.value = randomRequests
     }
+
 }
 
 
@@ -228,8 +154,65 @@ class MainActivity : ComponentActivity() {
 fun MainLayout(coreViewModel: CoreViewModel) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    
-    
+
+    // Keep track of requests
+    var requests = coreViewModel.requests.toMutableList()
+
+    // Function to generate a random request
+    fun generateRandomRequest(): Request {
+        // Generate random values for the request properties
+        val txID = UUID.randomUUID().toString()
+        val transactionType = TransactionType.values().random()
+        val heightMined = (1u..100u).random()
+        val heightExpiring = (101u..200u).random()
+        val isAutosigned = Random.nextBoolean()
+        val transactionFees = Random.nextFloat()
+        val transactionAmount = Random.nextFloat()
+        val originatorAddress = "exampleOriginatorAddress"
+        val withdrawalAddress = "exampleWithdrawalAddress"
+        val depositAddress = "exampleDepositAddress"
+        val targetConsensus = 70.0f
+        val currentConsensus = mutableStateOf( Random.nextFloat())
+        val transactionStatus = mutableStateOf(TransactionStatus.values().random())
+
+        return Request(
+            txID = txID,
+            transactionType = transactionType,
+            transactionStatus = transactionStatus,
+            heightMined = heightMined,
+            heightExpiring = heightExpiring,
+            isAutosigned = isAutosigned,
+            transactionFees = transactionFees,
+            transactionAmount = transactionAmount,
+            originatorAddress = originatorAddress,
+            withdrawalAddress = withdrawalAddress,
+            depositAddress = depositAddress,
+            currentConsensus = currentConsensus,
+            targetConsensus = targetConsensus
+        )
+    }
+
+    val triggerRecomposition = remember { mutableStateOf(Unit) }
+
+    // Randomize co-routine
+    LaunchedEffect(triggerRecomposition.value) {
+        while (true) {
+            delay(3000) // Wait for 3 seconds
+
+            Log.d("loop","while loop is printing")
+
+            // Generate a random request
+            val randomRequest = generateRandomRequest()
+
+            Log.d("tag","requests size: " + requests.size.toString())
+
+            // Update the list of requests with the new request
+            Log.d("randomRequest", randomRequest.transactionStatus.toString())
+            requests.add(randomRequest)
+        }
+    }
+
+
     Scaffold(
         bottomBar = { STXSignBottomNavigation(
             navController = navController,
@@ -247,13 +230,3 @@ fun MainLayout(coreViewModel: CoreViewModel) {
         }
     }
 }
-
-    
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    STXSignTheme {
-//        Greeting("Android")
-//    }
-//}

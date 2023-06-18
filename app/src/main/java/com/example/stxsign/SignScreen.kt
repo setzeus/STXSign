@@ -224,7 +224,7 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                             .padding(0.dp),
                                         contentScale = ContentScale.Fit
                                     )
-                                } else {
+                                } else if (request.transactionStatus.value == TransactionStatus.REJECT) {
                                     Image(
                                         painter = painterResource(id = R.drawable.redcrossss),
                                         contentDescription = "red cross",
@@ -234,14 +234,12 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                         contentScale = ContentScale.Fit
                                     )
                                 }
-                                if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
+                                if (request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
-                                } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.REJECT)  {
+                                } else if (request.transactionStatus.value == TransactionStatus.REJECT)  {
                                     Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
-                                } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
-                                } else if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                } else if (request.transactionStatus.value == TransactionStatus.ABSTAIN) {
+                                    Text(text = "Abstained", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.gray_button_400), textAlign = TextAlign.Right)
                                 }
                             }
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -291,7 +289,7 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                             .padding(0.dp),
                                         contentScale = ContentScale.Fit
                                     )
-                                } else {
+                                } else if (request.transactionStatus.value == TransactionStatus.REJECT) {
                                     Image(
                                         painter = painterResource(id = R.drawable.redcrossss),
                                         contentDescription = "red cross",
@@ -301,14 +299,12 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                         contentScale = ContentScale.Fit
                                     )
                                 }
-                                if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
+                                if (request.transactionStatus.value == TransactionStatus.APPROVE) {
                                     Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
-                                } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.REJECT)  {
+                                } else if (request.transactionStatus.value == TransactionStatus.REJECT)  {
                                     Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
-                                } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
-                                } else if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                } else if (request.transactionStatus.value == TransactionStatus.ABSTAIN) {
+                                    Text(text = "Abstained", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.gray_button_400), textAlign = TextAlign.Right)
                                 }
                             }
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -323,6 +319,71 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                         .padding(horizontal = 12.dp, vertical = 4.dp))
                                     {
                                         Text(text = "Withdraw", color = colorResource(id = R.color.yellow_text_800), style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
+                                    }
+                                }
+                                Spacer(Modifier.weight(1f))
+                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus.value), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
+                            }
+                        }
+                    }
+                    SigningProgressBar(request = request)
+                }
+            } else if (request.transactionType == TransactionType.HANDOFF) {
+                Column(modifier = Modifier.padding(top = 12.dp)) {
+                    Row(modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 12.dp)){
+                        Image(
+                            painter = painterResource(id = R.drawable.btclogo2),
+                            contentDescription = "btc icon",
+                            modifier = Modifier
+                                .size(56.dp)
+                                .padding(0.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Column(modifier = Modifier.padding(start = 8.dp)) {
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Text(text = "Bitcoin", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
+                                Spacer(Modifier.weight(1f))
+                                if (request.transactionStatus.value == TransactionStatus.APPROVE) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.greencheckss),
+                                        contentDescription = "green check",
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .padding(0.dp),
+                                        contentScale = ContentScale.Fit
+                                    )
+                                } else if (request.transactionStatus.value == TransactionStatus.REJECT) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.redcrossss),
+                                        contentDescription = "red cross",
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .padding(0.dp),
+                                        contentScale = ContentScale.Fit
+                                    )
+                                }
+                                if (request.transactionStatus.value == TransactionStatus.APPROVE) {
+                                    Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                } else if (request.transactionStatus.value == TransactionStatus.REJECT)  {
+                                    Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                } else if (request.transactionStatus.value == TransactionStatus.ABSTAIN) {
+                                    Text(text = "Abstained", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.gray_button_400), textAlign = TextAlign.Right)
+                                }
+                            }
+                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                                Row(modifier = Modifier.padding(top = 0.dp)) {
+                                    Row(modifier = Modifier
+                                        .background(
+                                            color = colorResource(id = R.color.handoff_orange_200).copy(
+                                                alpha = .5f
+                                            ),
+                                            shape = RoundedCornerShape(16.dp)
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 4.dp))
+                                    {
+                                        Text(text = "Handoff", color = colorResource(id = R.color.handoff_orange_800), style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
                                     }
                                 }
                                 Spacer(Modifier.weight(1f))

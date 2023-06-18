@@ -2,10 +2,7 @@ package com.example.stxsign
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -238,13 +235,13 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                     )
                                 }
                                 if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
                                 } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.REJECT)  {
-                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
                                 } else if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 }
                             }
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -305,13 +302,13 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                     )
                                 }
                                 if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
                                 } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.REJECT)  {
-                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Approved", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
                                 } else if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Rejected", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 }
                             }
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {

@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.RectangleShape
@@ -26,13 +27,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun StackScreen(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, currentRoute: String?, coreViewModel: CoreViewModel) {
 
-    var text by remember { mutableStateOf("Hello") }
+    var privateHashedKey by remember { mutableStateOf("Hello") }
+    var publicSigningKey by remember { mutableStateOf("Hello") }
+    var currentNetwork by remember { mutableStateOf("Hello") }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -51,20 +55,21 @@ fun StackScreen(navController: NavHostController, navBackStackEntry: NavBackStac
                 Text(text = "Basics", fontSize = 24.sp, fontWeight = FontWeight.Black, modifier = Modifier)
                 Text(text = "This first batch of settings are related to the signer & connected btc/stx node.", fontSize = 16.sp, fontWeight = FontWeight.Light, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp))
                 OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = privateHashedKey,
+                    onValueChange = { privateHashedKey = it },
                     label = { Text("Private Hashed Key") },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
                 OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = publicSigningKey,
+                    onValueChange = { publicSigningKey = it },
                     label = { Text("Public Signing Key") },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
                 )
                 OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = currentNetwork,
+                    onValueChange = { currentNetwork = it },
                     label = { Text("Current Network") },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
                 )
@@ -73,8 +78,8 @@ fun StackScreen(navController: NavHostController, navBackStackEntry: NavBackStac
                 // Default for approve all
                 // Below will be a ranged slider for min and/or max
                 OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = currentNetwork,
+                    onValueChange = { currentNetwork = it },
                     label = { Text("Transaction Sizes") },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
                 )

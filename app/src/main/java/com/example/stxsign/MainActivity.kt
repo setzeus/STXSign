@@ -53,6 +53,8 @@ enum class TransactionStatus {
     ABSTAIN, APPROVE, REJECT, UNSIGNED
 }
 
+//data class Configuration
+
 // Request Model
 data class Request(
     val txID: String,
@@ -237,7 +239,7 @@ fun MainLayout(coreViewModel: CoreViewModel) {
     ) {
         NavHost(navController = navController, startDestination = Screen.Sign.title) {
             composable(Screen.Stack.title) {
-                StackScreen()
+                StackScreen(navController = navController, navBackStackEntry, navBackStackEntry?.destination?.route, coreViewModel)
             }
             composable(Screen.Sign.title) {
                 SignScreen(navController = navController, navBackStackEntry, navBackStackEntry?.destination?.route, coreViewModel)

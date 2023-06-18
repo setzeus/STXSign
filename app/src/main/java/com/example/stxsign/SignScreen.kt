@@ -59,16 +59,6 @@ import androidx.compose.runtime.getValue
 @Composable
 fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, currentRoute: String?, coreViewModel: CoreViewModel) {
 
-//    val requests by remember(coreViewModel.requests.value) {
-//        mutableStateOf<List<Request>>(emptyList())
-//    }
-
-    // Access the first request
-    //println(coreViewModel.requests.value)
-    //println(requests)
-    //val firstRequest: Request? = coreViewModel.requests.value?.get(0)
-    //val secondRequest: Request? = coreViewModel.requests.value?.get(1)
-
     val requests = coreViewModel.requests ?: emptyList()
     var unsignedRequests = requests.filter { it.transactionStatus.value == TransactionStatus.UNSIGNED }
     var signedRequests = requests.filter { it.transactionStatus.value != TransactionStatus.UNSIGNED}

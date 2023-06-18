@@ -28,11 +28,11 @@ sealed class Screen(val route:String, val title:String, val icon:Int) {
     object Sign: Screen("sign", title = "Sign", icon = R.drawable.gridiconss)
 }
 
-data class BottomNavigationItem(val route: String, val icon: Int, val iconContentDescription: String)
+data class BottomNavigationItem(val route: String, val activeIcon: Int, val inactiveIcon: Int, val iconContentDescription: String)
 
 val bottomNavigationItems = listOf(
-    BottomNavigationItem(Screen.Sign.title, R.drawable.keyiconss, Screen.Sign.title),
-    BottomNavigationItem(Screen.Stack.title, R.drawable.gridiconss, Screen.Stack.title),
+    BottomNavigationItem(Screen.Sign.title, R.drawable.keyiconss, R.drawable.keyiconssinactive, Screen.Sign.title),
+    BottomNavigationItem(Screen.Stack.title, R.drawable.gridiconss, R.drawable.gridiconssinactive, Screen.Stack.title),
 )
 
 @Composable
@@ -41,23 +41,43 @@ fun STXSignBottomNavigation(navController: NavHostController, navBackStackEntry:
         //val currentRoute = navBackStackEntry?.destination?.route
 
         bottomNavigationItems.forEach { item ->
-            BottomNavigationItem(
-                //unselectedContentColor = androidx.compose.material.MaterialTheme.colors.primary,
-                icon = { Image(
-                    painter = painterResource(id = item.icon),
-                    contentDescription = "Restfully Placeholder Coach Image",
-                    modifier = Modifier
-                        .size(16.dp)
-                        .rotate(180f),
-                    contentScale = ContentScale.Fit
-                ) },
-                selected = currentRoute == item.route,
-                onClick = {
-                    navController.navigate(item.route) {
-                        popUpTo(navController.graph.id)
-                        launchSingleTop = true
-                    }
-                })
+            if(currentRoute == item.route) {
+                BottomNavigationItem(
+                    //unselectedContentColor = androidx.compose.material.MaterialTheme.colors.primary,
+                    icon = { Image(
+                        painter = painterResource(id = item.inactiveIcon),
+                        contentDescription = "Restfully Placeholder Coach Image",
+                        modifier = Modifier
+                            .size(24.dp)
+                            .rotate(180f),
+                        contentScale = ContentScale.Fit
+                    ) },
+                    selected = currentRoute == item.route,
+                    onClick = {
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.id)
+                            launchSingleTop = true
+                        }
+                    })
+            } else {
+                BottomNavigationItem(
+                    //unselectedContentColor = androidx.compose.material.MaterialTheme.colors.primary,
+                    icon = { Image(
+                        painter = painterResource(id = item.activeIcon),
+                        contentDescription = "Restfully Placeholder Coach Image",
+                        modifier = Modifier
+                            .size(16.dp)
+                            .rotate(180f),
+                        contentScale = ContentScale.Fit
+                    ) },
+                    selected = currentRoute == item.route,
+                    onClick = {
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.id)
+                            launchSingleTop = true
+                        }
+                    })
+            }
         }
 
     }

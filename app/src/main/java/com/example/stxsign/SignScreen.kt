@@ -90,13 +90,15 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                 .padding(horizontal = 12.dp)
                 .padding(top = 16.dp)) {
                 Row() {
-                    Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Black, modifier = Modifier)
+                    Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Black, modifier = Modifier, color = colorResource(
+                        id = R.color.gray_button_400
+                    ))
                     Row(modifier = Modifier
                         .padding(start = 8.dp)
                         .height(40.dp), verticalAlignment = Alignment.CenterVertically) {
                         Row(modifier = Modifier
                             .background(
-                                color = colorResource(id = R.color.gray_text_100),
+                                color = colorResource(id = R.color.gray_button_400),
                                 shape = RoundedCornerShape(16.dp)
                             )
                             .padding(horizontal = 12.dp, vertical = 4.dp))
@@ -106,8 +108,12 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                     }
                 }
                 Row(modifier = Modifier) {
-                    Text("sort by", fontWeight = FontWeight.Light, fontSize = 16.sp)
-                    Text(" time to expire", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("sort by", fontWeight = FontWeight.Light, fontSize = 16.sp, color = colorResource(
+                        id = R.color.gray_button_400
+                    ))
+                    Text(" time to expire", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = colorResource(
+                        id = R.color.gray_button_400
+                    ))
                     Box(
                         modifier = Modifier
                             .size(32.dp)
@@ -147,10 +153,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
                     }
                 }
 
-
-                Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 20.dp), color = colorResource(
-                    id = R.color.gray_button_400
-                ))
+                Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 20.dp), color = colorResource(id = R.color.gray_button_400))
 
                 LazyColumn() {
                     itemsIndexed(signedRequests) { index, request ->
@@ -231,13 +234,13 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                     )
                                 }
                                 if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
                                 } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.REJECT)  {
-                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
                                 } else if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 }
                             }
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -298,13 +301,13 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                                     )
                                 }
                                 if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
                                 } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.REJECT)  {
-                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 } else if (!request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Signed", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.green_approve_500), textAlign = TextAlign.Right)
                                 } else if (request.isAutosigned && request.transactionStatus.value == TransactionStatus.APPROVE) {
-                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier, color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
+                                    Text(text = "Autosigned", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 4.dp), color = colorResource(id = R.color.red_approve_500), textAlign = TextAlign.Right)
                                 }
                             }
                             Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -327,213 +330,6 @@ fun ClickableRow(onRowClicked: (Request) -> Unit, request: Request) {
                         }
                     }
                     SigningProgressBar(request = request)
-                }
-            }
-
-        }
-    }
-
-}
-
-@Composable
-fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
-
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 6.dp)) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onCardClicked(request) }
-            .shadow(elevation = 4.dp)
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(8.dp)
-            ),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            if (request.transactionType == TransactionType.DEPOSIT) {
-                Column(modifier = Modifier.padding(top = 12.dp)) {
-                    Row(modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 12.dp)){
-                        Image(
-                            painter = painterResource(id = R.drawable.sbtclogo2),
-                            contentDescription = "sbtc icon",
-                            modifier = Modifier
-                                .size(56.dp)
-                                .padding(0.dp),
-                            contentScale = ContentScale.Fit
-                        )
-                        Column(modifier = Modifier.padding(start = 8.dp)) {
-                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
-                                Text(text = "sBTC", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                                Spacer(Modifier.weight(1f))
-                                Image(
-                                    painter = painterResource(id = R.drawable.chevrighticonss),
-                                    contentDescription = "right arrow",
-                                    modifier = Modifier
-                                        .size(16.dp)
-                                        .padding(0.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-                            }
-                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
-                                Row(modifier = Modifier.padding(top = 0.dp)) {
-                                    Row(modifier = Modifier
-                                        .background(
-                                            color = colorResource(id = R.color.blue_tag_200).copy(
-                                                alpha = .5f
-                                            ),
-                                            shape = RoundedCornerShape(16.dp)
-                                        )
-                                        .padding(horizontal = 12.dp, vertical = 4.dp))
-                                    {
-                                        Text(text = "Deposit", color = colorResource(id = R.color.blue_text_800), style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
-                                    }
-                                }
-                                Spacer(Modifier.weight(1f))
-                                Text(text = String.format("%.2f%% confirmed", request.currentConsensus.value), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
-                            }
-                        }
-                    }
-                    SigningProgressBar(request = request)
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier
-                        .padding(vertical = 12.dp)
-                        .padding(horizontal = 16.dp)) {
-                        Row(modifier = Modifier.weight(1f)) {
-                            Row(modifier = Modifier
-                                .background(
-                                    color = colorResource(id = R.color.gray_button_400),
-                                    shape = RoundedCornerShape(24.dp)
-                                )
-                                .padding(vertical = 6.dp)
-                                .fillMaxWidth(),
-                                //.width(112.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                                //.padding(horizontal = 12.dp, vertical = 4.dp)
-                            )
-                            {
-                                Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
-                            }
-                        }
-                        Row(modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 8.dp)) {
-                            Row(modifier = Modifier
-                                .border(
-                                    width = 1.dp,
-                                    color = colorResource(id = R.color.gray_button_400),
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .background(
-                                    color = Color.White,
-                                    shape = RoundedCornerShape(24.dp)
-                                )
-                                .padding(vertical = 6.dp)
-                                .fillMaxWidth(),
-                                //.width(112.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                                //.padding(horizontal = 12.dp, vertical = 4.dp)
-                            )
-
-                            {
-                                Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
-                            }
-                        }
-                        Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
-                    }
-                }
-            } else if (request.transactionType == TransactionType.WITHDRAWAL) {
-                Column(modifier = Modifier.padding(top = 12.dp)) {
-                    Row(modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 12.dp)){
-                        Image(
-                            painter = painterResource(id = R.drawable.btclogo2),
-                            contentDescription = "btc icon",
-                            modifier = Modifier
-                                .size(56.dp)
-                                .padding(0.dp),
-                            contentScale = ContentScale.Fit
-                        )
-                        Column(modifier = Modifier.padding(start = 8.dp)) {
-                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
-                                Text(text = "Bitcoin", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier)
-                                Spacer(Modifier.weight(1f))
-                                Image(
-                                    painter = painterResource(id = R.drawable.chevrighticonss),
-                                    contentDescription = "right arrow",
-                                    modifier = Modifier
-                                        .size(16.dp)
-                                        .padding(0.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-                            }
-                            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
-                                Row(modifier = Modifier.padding(top = 0.dp)) {
-                                    Row(modifier = Modifier
-                                        .background(
-                                            color = colorResource(id = R.color.yellow_tag_200).copy(
-                                                alpha = .5f
-                                            ),
-                                            shape = RoundedCornerShape(16.dp)
-                                        )
-                                        .padding(horizontal = 12.dp, vertical = 4.dp))
-                                    {
-                                        Text(text = "Withdraw", color = colorResource(id = R.color.yellow_text_800), style = MaterialTheme.typography.body2, fontWeight = FontWeight.Black)
-                                    }
-                                }
-                                Spacer(Modifier.weight(1f))
-                                Text(    text = String.format("%.2f%% confirmed", request.currentConsensus.value), modifier = Modifier, style = MaterialTheme.typography.body2, textAlign = TextAlign.Right)
-                            }
-                        }
-                    }
-                    SigningProgressBar(request = request)
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier
-                        .padding(vertical = 12.dp)
-                        .padding(horizontal = 16.dp)) {
-                        Row(modifier = Modifier.weight(1f)) {
-                            Row(modifier = Modifier
-                                .background(
-                                    color = colorResource(id = R.color.gray_button_400),
-                                    shape = RoundedCornerShape(24.dp)
-                                )
-                                .padding(vertical = 6.dp)
-                                .fillMaxWidth(),
-                                //.width(112.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                                //.padding(horizontal = 12.dp, vertical = 4.dp)
-                            )
-                            {
-                                Text(text = "Approve", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.White, fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
-                            }
-                        }
-                        Row(modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 8.dp)) {
-                            Row(modifier = Modifier
-                                .border(
-                                    width = 1.dp,
-                                    color = colorResource(id = R.color.gray_button_400),
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .background(
-                                    color = Color.White,
-                                    shape = RoundedCornerShape(24.dp)
-                                )
-                                .padding(vertical = 6.dp)
-                                .fillMaxWidth(),
-                                //.width(112.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                                //.padding(horizontal = 12.dp, vertical = 4.dp)
-                            )
-
-                            {
-                                Text(text = "Deny", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
-                            }
-                        }
-                        Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
-                    }
                 }
             }
 

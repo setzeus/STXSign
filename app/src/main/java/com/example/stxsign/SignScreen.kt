@@ -51,6 +51,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.example.stxsign.RequestOverlay
 import androidx.compose.runtime.getValue
+import java.util.*
+import kotlin.random.Random
 
 
 @Composable
@@ -71,6 +73,67 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
     var overlayActive by remember { mutableStateOf(false) }
 
     var selectedOverlayRequest: Request? by remember { mutableStateOf(null) }
+
+
+    // Function to generate a random request
+    fun generateRandomRequest(): Request {
+
+        // Randomize transactionType with weighted probabilities
+        val transactionType = when {
+            Random.nextInt(100) < 40 -> TransactionType.DEPOSIT
+            Random.nextInt(100) < 80 -> TransactionType.WITHDRAWAL
+            else -> TransactionType.HANDOFF
+        }
+
+        // Randomize transactionType with weighted probabilities
+        val transactionStatus = when {
+            Random.nextInt(100) < 40 -> TransactionStatus.UNSIGNED
+            Random.nextInt(100) < 60 -> TransactionStatus.APPROVE
+            Random.nextInt(100) < 80 -> TransactionStatus.REJECT
+            else -> TransactionStatus.ABSTAIN
+        }
+
+        // Generate random values for the request properties
+        val txID = UUID.randomUUID().toString()
+        val heightMined = (1u..100u).random()
+        val heightExpiring = (101u..200u).random()
+        val isAutosigned = Random.nextBoolean()
+        val transactionFees = Random.nextFloat()
+        val transactionAmount = Random.nextFloat()
+        val originatorAddress = "exampleOriginatorAddress"
+        val withdrawalAddress = "exampleWithdrawalAddress"
+        val depositAddress = "exampleDepositAddress"
+        val targetConsensus = 70.0f
+        val currentConsensus = mutableStateOf( Random.nextFloat())
+
+        return Request(
+            txID = txID,
+            transactionType = transactionType,
+            transactionStatus = mutableStateOf(transactionStatus),
+            heightMined = heightMined,
+            heightExpiring = heightExpiring,
+            isAutosigned = isAutosigned,
+            transactionFees = transactionFees,
+            transactionAmount = transactionAmount,
+            originatorAddress = originatorAddress,
+            withdrawalAddress = withdrawalAddress,
+            depositAddress = depositAddress,
+            currentConsensus = currentConsensus,
+            targetConsensus = targetConsensus
+        )
+    }
+
+    // Randomize the requests every 5 seconds
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(5000) // Wait for 5 seconds
+
+            // Generate a new random request
+            val randomRequest = generateRandomRequest()
+            // Update the requests list with the new request
+            coreViewModel._requests.value = coreViewModel._requests.value + randomRequest
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),

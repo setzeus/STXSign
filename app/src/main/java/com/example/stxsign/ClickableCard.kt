@@ -350,9 +350,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                 )
                                 .padding(vertical = 6.dp)
                                 .fillMaxWidth(),
-                                //.width(112.dp),
                                 verticalAlignment = Alignment.CenterVertically
-                                //.padding(horizontal = 12.dp, vertical = 4.dp)
                             )
 
                             {

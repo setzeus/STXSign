@@ -92,7 +92,7 @@ data class Request(
 
 // core viewModel
 class CoreViewModel : ViewModel() {
-    private val _requests = mutableStateOf<List<Request>>(emptyList())
+    val _requests = mutableStateOf<List<Request>>(emptyList())
     val requests: List<Request> get() = _requests.value
 
     init {
@@ -159,60 +159,25 @@ fun MainLayout(coreViewModel: CoreViewModel) {
 
     // Keep track of requests
     var requests = coreViewModel.requests.toMutableList()
-
-    // Function to generate a random request
-    fun generateRandomRequest(): Request {
-        // Generate random values for the request properties
-        val txID = UUID.randomUUID().toString()
-        val transactionType = TransactionType.values().random()
-        val heightMined = (1u..100u).random()
-        val heightExpiring = (101u..200u).random()
-        val isAutosigned = Random.nextBoolean()
-        val transactionFees = Random.nextFloat()
-        val transactionAmount = Random.nextFloat()
-        val originatorAddress = "exampleOriginatorAddress"
-        val withdrawalAddress = "exampleWithdrawalAddress"
-        val depositAddress = "exampleDepositAddress"
-        val targetConsensus = 70.0f
-        val currentConsensus = mutableStateOf( Random.nextFloat())
-        val transactionStatus = mutableStateOf(TransactionStatus.values().random())
-
-        return Request(
-            txID = txID,
-            transactionType = transactionType,
-            transactionStatus = transactionStatus,
-            heightMined = heightMined,
-            heightExpiring = heightExpiring,
-            isAutosigned = isAutosigned,
-            transactionFees = transactionFees,
-            transactionAmount = transactionAmount,
-            originatorAddress = originatorAddress,
-            withdrawalAddress = withdrawalAddress,
-            depositAddress = depositAddress,
-            currentConsensus = currentConsensus,
-            targetConsensus = targetConsensus
-        )
-    }
-
     val triggerRecomposition = remember { mutableStateOf(Unit) }
 
     // Randomize co-routine
-    LaunchedEffect(triggerRecomposition.value) {
-        while (true) {
-            delay(3000) // Wait for 3 seconds
-
-            Log.d("loop","while loop is printing")
-
-            // Generate a random request
-            val randomRequest = generateRandomRequest()
-
-            Log.d("tag","requests size: " + requests.size.toString())
-
-            // Update the list of requests with the new request
-            Log.d("randomRequest", randomRequest.transactionStatus.toString())
-            requests.add(randomRequest)
-        }
-    }
+//    LaunchedEffect(triggerRecomposition.value) {
+//        while (true) {
+//            delay(3000) // Wait for 3 seconds
+//
+//            Log.d("loop","while loop is printing")
+//
+//            // Generate a random request
+//            val randomRequest = generateRandomRequest()
+//
+//            Log.d("tag","requests size: " + requests.size.toString())
+//
+//            // Update the list of requests with the new request
+//            Log.d("randomRequest", randomRequest.transactionStatus.toString())
+//            requests.add(randomRequest)
+//        }
+//    }
 
 
     Scaffold(

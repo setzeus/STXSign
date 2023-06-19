@@ -14,4 +14,6 @@ val Pink40 = Color(0xFF7D5260)
 val STXPurpleLight = Color(R.color.stx_purple_500)
 val STXPurpleDark = Color(R.color.stx_purple_200)
 
+val BTCDefault = Color(R.color.handoff_orange_200)
+
 //val SignedGreenBody = Color(R.color.green)

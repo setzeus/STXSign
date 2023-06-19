@@ -1,5 +1,6 @@
 package com.example.stxsign
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -38,7 +39,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun StackScreen(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, currentRoute: String?, coreViewModel: CoreViewModel) {
 
@@ -47,6 +48,10 @@ fun StackScreen(navController: NavHostController, navBackStackEntry: NavBackStac
     var currentNetwork by remember { mutableStateOf("Mainnet") }
 
     var hasChanges by remember { mutableStateOf(false) }
+
+    var sliderValues by remember {
+        mutableStateOf(.000000001f..100f)
+    }
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -164,17 +169,39 @@ fun StackScreen(navController: NavHostController, navBackStackEntry: NavBackStac
                 Text(text = "Approval Settings", fontSize = 24.sp, fontWeight = FontWeight.Black, modifier = Modifier)
                 Text(text = "This second batch of settings configure what transactions (if any), to autosign.", fontSize = 16.sp, fontWeight = FontWeight.Light, modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp))
+                    .padding(bottom = 12.dp))
                 // Default for approve all
                 // Below will be a ranged slider for min and/or max
-                OutlinedTextField(
-                    value = currentNetwork,
-                    onValueChange = { currentNetwork = it },
-                    label = { Text("Transaction Sizes") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp)
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Text(text = "Transaction Limits", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier)
+                    Text(text = "(btc)", fontSize = 16.sp, fontWeight = FontWeight.Light, modifier = Modifier.padding(start = 4.dp))
+                }
+                RangeSlider(values = sliderValues, onValueChange = { sliderValues_ ->
+                    sliderValues = sliderValues_
+                },
+                    valueRange = .000000001f..100f,
+                    onValueChangeFinished = {
+                        // this is called when the user completed selecting the value
+                        Log.d(
+                            "MainActivity",
+                            "Start: ${sliderValues.start}, End: ${sliderValues.endInclusive}"
+                        )
+                    },
+                colors = SliderDefaults.colors(
+                    activeTrackColor = colorResource(id = R.color.handoff_orange_200),
+                    thumbColor = colorResource(id = R.color.gray_button_400)
                 )
+                    )
+                Row(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
+                    Text(text = "%.9f".format(sliderValues.start))
+                    Spacer(Modifier.weight(1f))
+                    Text(text = "%.9f".format(sliderValues.endInclusive))
+                }
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Text(text = "Auto-Deny List", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier)
+                    Text(text = "(addresses)", fontSize = 16.sp, fontWeight = FontWeight.Light, modifier = Modifier.padding(start = 4.dp))
+                }
+
                 Text(text = "Demo Settings", fontSize = 24.sp, fontWeight = FontWeight.Black, modifier = Modifier)
                 // On / off
                 // Randomize every 5 seconds

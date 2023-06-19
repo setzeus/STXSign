@@ -81,7 +81,9 @@ data class Request(
 
         if (increasesConsensusBy > 0) {
             transactionStatus.value = TransactionStatus.APPROVE
-        } else {
+        } else if (increasesConsensusBy == 0f) {
+            transactionStatus.value = TransactionStatus.ABSTAIN
+        } else if (increasesConsensusBy < 0) {
             transactionStatus.value = TransactionStatus.REJECT
         }
 

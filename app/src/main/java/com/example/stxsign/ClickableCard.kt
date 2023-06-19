@@ -167,7 +167,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                 Text(text = "Deny", modifier = Modifier.fillMaxWidth().clickable { request.vote(-10.1f) }, textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                             }
                         }
-                        Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
+                        Text(text = "Abstain", modifier = Modifier.weight(1f).clickable { request.vote(0f) }, textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
                     }
                 }
             } else if (request.transactionType == TransactionType.WITHDRAWAL) {
@@ -263,7 +263,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                 Text(text = "Deny", modifier = Modifier.fillMaxWidth().clickable { request.vote(-10.1f) }, textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                             }
                         }
-                        Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
+                        Text(text = "Abstain", modifier = Modifier.weight(1f).clickable { request.vote(0f) }, textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
                     }
                 }
             } else if (request.transactionType == TransactionType.HANDOFF) {
@@ -359,7 +359,7 @@ fun ClickableCard(onCardClicked: (Request) -> Unit, request: Request) {
                                 Text(text = "Deny", modifier = Modifier.fillMaxWidth().clickable { request.vote(-10.1f) }, textAlign = TextAlign.Center ,color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Bold)
                             }
                         }
-                        Text(text = "Dismiss", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
+                        Text(text = "Abstain", modifier = Modifier.weight(1f).clickable { request.vote(0f) }, textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
                     }
                 }
             }

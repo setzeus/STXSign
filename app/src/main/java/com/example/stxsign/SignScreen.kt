@@ -85,7 +85,8 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
             )) {
             Column( modifier = Modifier
                 .padding(horizontal = 12.dp)
-                .padding(top = 16.dp)) {
+                .padding(top = 16.dp)
+                ) {
                 if (unsignedRequests.size != 0) {
                     Row() {
                         Text(text = "Pending Requests", fontSize = 28.sp, fontWeight = FontWeight.Black, modifier = Modifier, color = colorResource(
@@ -154,7 +155,7 @@ fun SignScreen(navController: NavHostController, navBackStackEntry: NavBackStack
 
                 Text(text = "Signed Requests", fontSize = 28.sp, fontWeight = FontWeight.Medium, modifier = Modifier, color = colorResource(id = R.color.gray_button_400))
 
-                LazyColumn() {
+                LazyColumn(modifier = Modifier.padding(bottom = 24.dp)) {
                     itemsIndexed(signedRequests) { index, request ->
                         ClickableRow(
                             request = request,

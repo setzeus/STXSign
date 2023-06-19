@@ -1000,7 +1000,7 @@ fun ToClickSubCard(request: Request, onDismiss: () -> Unit, mutableRequest: Muta
                     }
                 }
             }
-            Text(text = "Abstain", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Medium)
+            Text(text = "Abstain", modifier = Modifier.weight(1f).clickable { request.vote(0f) }, textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
         }
     }
     else if (request.transactionType == TransactionType.WITHDRAWAL) {
@@ -1220,7 +1220,7 @@ fun ToClickSubCard(request: Request, onDismiss: () -> Unit, mutableRequest: Muta
                     }
                 }
             }
-            Text(text = "Abstain", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Medium)
+            Text(text = "Abstain", modifier = Modifier.weight(1f).clickable { request.vote(0f) }, textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
         }
     }
     else if (request.transactionType == TransactionType.HANDOFF) {
@@ -1440,7 +1440,7 @@ fun ToClickSubCard(request: Request, onDismiss: () -> Unit, mutableRequest: Muta
                     }
                 }
             }
-            Text(text = "Abstain", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2, fontWeight = FontWeight.Medium)
+            Text(text = "Abstain", modifier = Modifier.weight(1f).clickable { request.vote(0f) }, textAlign = TextAlign.Center, color = colorResource(id = R.color.gray_button_400), fontSize = 20.sp, style = MaterialTheme.typography.body2)
         }
     }
 }
